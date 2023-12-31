@@ -21,8 +21,36 @@
   "contributes": {
     "commands": [
       {
-        "command": "extension.manageTerminals",
-        "title": "Auto Term:"
+        "command": "extension.setupTerminals",
+        "title": "Auto Term: setup"
+      },
+      {
+        "command": "extension.openTerminals",
+        "title": "Auto Term: open"
+      },
+      {
+        "command": "extension.startTerminals",
+        "title": "Auto Term: start"
+      },
+      {
+        "command": "extension.stopTerminals",
+        "title": "Auto Term: stop"
+      },
+      {
+        "command": "extension.restartTerminals",
+        "title": "Auto Term: restart"
+      },
+      {
+        "command": "extension.closeTerminals",
+        "title": "Auto Term: close"
+      },
+      {
+        "command": "extension.customActions",
+        "title": "Auto Term: custom action"
+      },
+      {
+        "command": "extension.showUsageGuide",
+        "title": "Auto Term: Show Usage Guide"
       }
     ]
   },
