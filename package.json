@@ -9,13 +9,20 @@
   "categories": [
     "Other"
   ],
+  "icon": "images/icon.png",
+  "publisher": "Julia B",
+  "license": "MIT",
+  "keywords": [
+    "terminal",
+    "tabs"
+  ],
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "extension.openTerminals",
-        "title": "Open Terminals"
+        "command": "extension.manageTerminals",
+        "title": "Manage Terminals"
       }
     ]
   },
