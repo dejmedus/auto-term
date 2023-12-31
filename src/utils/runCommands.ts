@@ -1,10 +1,8 @@
 import vscode from "vscode";
 import customCommands from "./customCommands";
 
-export default function runCommands(configFile: any, actionName: string) {
+export default function runCommands(tabConfig: any) {
   try {
-    const tabConfig = configFile[actionName];
-
     if (!Array.isArray(tabConfig)) {
       vscode.window.showErrorMessage(
         "Invalid terminalConfigurations file format."
@@ -32,6 +30,7 @@ export default function runCommands(configFile: any, actionName: string) {
         existingTerminal.show();
         commands.forEach((command: string) => {
           if (customCommands[command]) {
+            console.log("custom command found", command);
             customCommands[command](existingTerminal, []);
           } else {
             existingTerminal.sendText(command);
