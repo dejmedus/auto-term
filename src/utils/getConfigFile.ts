@@ -22,7 +22,9 @@ export default function getConfigFile() {
     return;
   }
 
-  const terminalConfigurations = require(configFile);
+  const terminalConfigurations = JSON.parse(
+    fs.readFileSync(configFile, "utf8")
+  );
 
   return terminalConfigurations;
 }
