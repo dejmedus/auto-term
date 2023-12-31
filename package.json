@@ -1,6 +1,6 @@
 {
-  "name": "auto-term",
-  "displayName": "Auto Term",
+  "name": "auto-term-tabs",
+  "displayName": "Auto Terminal",
   "description": "Setup and manage terminal tabs",
   "version": "0.0.2",
   "pricing": "Free",
