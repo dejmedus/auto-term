@@ -1,0 +1,52 @@
+{
+  "setup": [
+    {
+      "name": "git",
+      "commands": ["git branch"],
+      "description": "Display the current branch"
+    },
+    {
+      "name": "frontend",
+      "commands": ["npm install"],
+      "description": "Install dependencies"
+    }
+  ],
+  "open": [
+    {
+      "name": "git",
+      "commands": ["git branch"],
+      "description": "Display the current branch"
+    },
+    {
+      "name": "frontend",
+      "commands": ["npm run dev"],
+      "description": "Run the app"
+    }
+  ],
+  "start": [
+    {
+      "name": "frontend",
+      "commands": ["clear", "npm run dev"],
+      "description": "Run the app"
+    }
+  ],
+  "stop": [
+    {
+      "name": "frontend",
+      "commands": ["*STOP", "clear"],
+      "description": "Stop the app"
+    }
+  ],
+  "close": [
+    {
+      "name": "git",
+      "commands": ["*CLOSE"],
+      "description": "Close the terminal"
+    },
+    {
+      "name": "frontend",
+      "commands": ["*CLOSE"],
+      "description": "Close the terminal"
+    }
+  ]
+}
