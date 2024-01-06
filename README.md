@@ -2,28 +2,24 @@
 
 Auto-Term is a Visual Studio Code extension that allows you to automate the process of opening and configuring multiple terminal tabs when you open a workspace. This is useful for quickly setting up terminals, running commands, navigating directories, and more.
 
-## Features
-
-- Define terminal configurations in your `terminal.config.json` file.
-
 ## Usage
 
 1. Open your workspace in Visual Studio Code.
 2. Press `Ctrl+Shift+P` to open the command palette.
-3. Type `Auto Term: <action>` or `Auto Term: Action`
+3. Type `Auto Term: <action>` or `Auto Term: Action` and select an action.
 4. Auto-Term will read your terminal configurations and run the specified commands.
 
 ## Configuration
 
-You can define your terminal configurations in a `terminal.config.json` file in the root of your workspace. The file should be structured by action, each containing and array of terminal commands.
+You can define your terminal configurations in a `terminal.config.json` file in the root of your workspace. The file should be structured by action, each containing and array of terminal tab commands.
 
-Actions can include: setup, open, start, stop, restart, and close. Use custom actions with Auto Term: Action
+Create a `terminal.config.json` file from template using command `Auto Term: Template`
 
 Example:
 
 ```json
 {
-  // usage: Auto Term: setup
+  // Here, setup will open two terminal tabs: frontend and backend, then installs needed packages
   "setup": [
     {
       "name": "frontend",
@@ -82,13 +78,11 @@ Example:
       "commands": ["*STOP", "clear", "python manage.py runserver"],
       "description": "Restart the backend"
     }
-  ]
-  // this is a custom action, it can be called whatever you like
-  // usage: Auto Term: Action
+  ],
   "reminder": [
     {
       "name": "git",
-      "commands" : ["echo 'remember to pull new changes from main'"],
+      "commands": ["echo 'remember to pull new changes from main'"],
       "description": "Reminder"
     }
   ]
@@ -105,5 +99,4 @@ Auto-Term provides special commands that can be utilized to perform specific act
 #### Tips:
 
 - If an existing terminal of "name" cannot be found a new terminal will be created.
-- Any action included in `terminal.config.json` can be run with Auto Term: Action, including default actions like open, close, restart, etc.
 - Press `Ctrl+Shift+P` and type `Auto Term: Show usage guide` to view an overview of your `terminal.config.json` commands
