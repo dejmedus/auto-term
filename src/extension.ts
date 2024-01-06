@@ -1,8 +1,11 @@
+import path from "path";
+import fs from "fs";
+import * as vscode from "vscode";
+
 import runCommands from "./utils/runCommands";
 import getConfigFile from "./utils/getConfigFile";
 import generateUsageGuideHTML from "./utils/webview";
-
-import * as vscode from "vscode";
+import getTemplateFile from "./utils/getTemplateFile";
 
 function manageTerminals(action: string) {
   const configFile = getConfigFile();
@@ -23,55 +26,31 @@ function manageTerminals(action: string) {
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 function activate(context: vscode.ExtensionContext) {
-  console.log('Congratulations, your extension "auto-term" is now active!');
+  let actionsDisposable = vscode.commands.registerCommand(
+    "extension.action",
+    () => {
+      const configFile = getConfigFile();
 
-  let setupDisposable = vscode.commands.registerCommand(
-    "extension.setupTerminals",
-    () => manageTerminals("setup")
-  );
-  let openDisposable = vscode.commands.registerCommand(
-    "extension.openTerminals",
-    () => manageTerminals("open")
-  );
-  let startDisposable = vscode.commands.registerCommand(
-    "extension.startTerminals",
-    () => manageTerminals("start")
-  );
-  let stopDisposable = vscode.commands.registerCommand(
-    "extension.stopTerminals",
-    () => manageTerminals("stop")
-  );
-  let restartDisposable = vscode.commands.registerCommand(
-    "extension.restartTerminals",
-    () => manageTerminals("restart")
-  );
-  let closeDisposable = vscode.commands.registerCommand(
-    "extension.closeTerminals",
-    () => manageTerminals("close")
-  );
-
-  context.subscriptions.push(setupDisposable);
-  context.subscriptions.push(openDisposable);
-  context.subscriptions.push(startDisposable);
-  context.subscriptions.push(stopDisposable);
-  context.subscriptions.push(restartDisposable);
-  context.subscriptions.push(closeDisposable);
-
-  const customActionDisposable = vscode.commands.registerCommand(
-    "extension.customActions",
-    async () => {
-      const action = await vscode.window.showInputBox({
-        placeHolder: "Enter action name (e.g., 'open', 'close')",
-        prompt: "Enter the action name to manage terminals",
-      });
-
-      if (action) {
-        manageTerminals(action);
+      if (!configFile) {
+        vscode.window.showErrorMessage("Configuration file not found.");
+        return;
       }
+
+      const actionOptions = Object.keys(configFile);
+
+      vscode.window.showQuickPick(actionOptions).then((selectedOption) => {
+        if (selectedOption) {
+          vscode.window.showInformationMessage(
+            `Selected action: ${selectedOption}`
+          );
+
+          manageTerminals(selectedOption);
+        }
+      });
     }
   );
 
-  context.subscriptions.push(customActionDisposable);
+  context.subscriptions.push(actionsDisposable);
 
   let usageGuideDisposable = vscode.commands.registerCommand(
     "extension.showUsageGuide",
@@ -107,6 +86,47 @@ function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(usageGuideDisposable);
+
+  let templatesDisposable = vscode.commands.registerCommand(
+    "extension.getTemplate",
+    () => {
+      const templatesDir = path.join(__dirname, "templates");
+      const templateOptions = fs.readdirSync(templatesDir);
+
+      vscode.window.showQuickPick(templateOptions).then((selectedOption) => {
+        if (selectedOption) {
+          vscode.window.showInformationMessage(
+            `Selected Template: ${selectedOption}`
+          );
+          const templateFile: string = getTemplateFile(selectedOption);
+
+          if (!templateFile) {
+            vscode.window.showErrorMessage("Template file not found.");
+            return;
+          }
+
+          console.log("templateFile", templateFile);
+
+          if (vscode.workspace.workspaceFolders === undefined) {
+            vscode.window.showErrorMessage("No workspace found");
+            return;
+          }
+
+          const workspacePath = vscode.workspace.workspaceFolders[0].uri.fsPath;
+
+          const templateConfigPath = path.join(
+            workspacePath,
+            "terminal.config.json"
+          );
+
+          console.log("templateConfigPath", templateConfigPath);
+          fs.writeFileSync(templateConfigPath, templateFile);
+        }
+      });
+    }
+  );
+
+  context.subscriptions.push(templatesDisposable);
 }
 
 // This method is called when your extension is deactivated
