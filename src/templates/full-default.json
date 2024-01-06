@@ -1,0 +1,51 @@
+{
+  "setup": [
+    {
+      "name": "tab",
+      "commands": ["cd folder", "npm install", "clear"],
+      "description": "Setup a new tab"
+    }
+  ],
+  "open": [
+    {
+      "name": "tab",
+      "commands": ["cd folder", "clear"],
+      "description": "Open a new tab"
+    }
+  ],
+  "start": [
+    {
+      "name": "tab",
+      "commands": ["npm start", "clear"],
+      "description": "Start the tab"
+    }
+  ],
+  "stop": [
+    {
+      "name": "tab",
+      "commands": ["*STOP", "clear"],
+      "description": "Stop the tab"
+    }
+  ],
+  "restart": [
+    {
+      "name": "tab",
+      "commands": ["*STOP", "clear", "npm start"],
+      "description": "Restart the tab"
+    }
+  ],
+  "close": [
+    {
+      "name": "tab",
+      "commands": ["*CLOSE"],
+      "description": "Close the tab"
+    }
+  ],
+  "reminder": [
+    {
+      "name": "reminder",
+      "commands": ["echo 'you're doing great'"],
+      "description": "Reminder"
+    }
+  ]
+}
