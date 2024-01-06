@@ -1,8 +1,8 @@
 # Change Log
 
-All notable changes to the "auto-term" extension will be documented in this file.
+## 0.0.4
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+- Create `terminal.config.json` file from template with `Auto Term: Template`
 
 ## [Unreleased]
 
