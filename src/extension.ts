@@ -1,8 +1,11 @@
+import path from "path";
+import fs from "fs";
+import * as vscode from "vscode";
+
 import runCommands from "./utils/runCommands";
 import getConfigFile from "./utils/getConfigFile";
 import generateUsageGuideHTML from "./utils/webview";
-
-import * as vscode from "vscode";
+import getTemplateFile from "./utils/getTemplateFile";
 
 function manageTerminals(action: string) {
   const configFile = getConfigFile();
@@ -107,6 +110,51 @@ function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(usageGuideDisposable);
+
+  let templatesDisposable = vscode.commands.registerCommand(
+    "extension.getTemplate",
+    () => {
+      const templatesDir = path.join(__dirname, "templates");
+      const templateOptions = fs.readdirSync(templatesDir);
+
+      vscode.window.showQuickPick(templateOptions).then((selectedOption) => {
+        if (selectedOption) {
+          vscode.window.showInformationMessage(
+            `Selected option: ${selectedOption}`
+          );
+          const templateFile: string = getTemplateFile(selectedOption);
+
+          if (!templateFile) {
+            vscode.window.showErrorMessage("Template file not found.");
+            return;
+          }
+
+          console.log("templateFile", templateFile);
+
+          if (vscode.workspace.workspaceFolders === undefined) {
+            vscode.window.showErrorMessage("No workspace found");
+            return;
+          }
+
+          const workspacePath = vscode.workspace.workspaceFolders[0].uri.fsPath;
+
+          const templateConfigPath = path.join(
+            workspacePath,
+            "template.config.json"
+          );
+
+          console.log("templateConfigPath", templateConfigPath);
+
+          fs.writeFileSync(
+            templateConfigPath,
+            JSON.stringify(templateFile, null, 2)
+          );
+        }
+      });
+    }
+  );
+
+  context.subscriptions.push(templatesDisposable);
 }
 
 // This method is called when your extension is deactivated
