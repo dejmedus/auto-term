@@ -27,51 +27,57 @@
       },
       {
         "command": "extension.openTerminals",
-        "title": "Auto Term: open"
+        "title": "Auto Term: Open"
       },
       {
         "command": "extension.startTerminals",
-        "title": "Auto Term: start"
+        "title": "Auto Term: Start"
       },
       {
         "command": "extension.stopTerminals",
-        "title": "Auto Term: stop"
+        "title": "Auto Term: Stop"
       },
       {
         "command": "extension.restartTerminals",
-        "title": "Auto Term: restart"
+        "title": "Auto Term: Restart"
       },
       {
         "command": "extension.closeTerminals",
-        "title": "Auto Term: close"
+        "title": "Auto Term: Close"
       },
       {
         "command": "extension.customActions",
-        "title": "Auto Term: custom action"
+        "title": "Auto Term: Action"
       },
       {
         "command": "extension.showUsageGuide",
         "title": "Auto Term: Show Usage Guide"
+      },
+      {
+        "command": "extension.getTemplate",
+        "title": "Auto Term: Template"
       }
     ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
+    "postcompile": "copyfiles -u 2 src/templates/* out/templates",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.85.0",
     "@types/mocha": "^10.0.6",
     "@types/node": "18.x",
+    "@types/vscode": "^1.85.0",
     "@typescript-eslint/eslint-plugin": "^6.15.0",
     "@typescript-eslint/parser": "^6.15.0",
-    "eslint": "^8.56.0",
-    "typescript": "^5.3.3",
     "@vscode/test-cli": "^0.0.4",
-    "@vscode/test-electron": "^2.3.8"
+    "@vscode/test-electron": "^2.3.8",
+    "copyfiles": "^2.4.1",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3"
   }
 }
