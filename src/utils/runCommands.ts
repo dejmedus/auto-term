@@ -24,14 +24,19 @@ export default function runCommands(tabConfig: any) {
         });
         newTerminal.show();
         commands.forEach((command: string) => {
-          newTerminal.sendText(command);
+          if (customCommands[command.toLowerCase()]) {
+            console.log("custom command found", command);
+            customCommands[command.toLowerCase()](newTerminal, []);
+          } else {
+            newTerminal.sendText(command);
+          }
         });
       } else {
         existingTerminal.show();
         commands.forEach((command: string) => {
-          if (customCommands[command]) {
+          if (customCommands[command.toLowerCase()]) {
             console.log("custom command found", command);
-            customCommands[command](existingTerminal, []);
+            customCommands[command.toLowerCase()](existingTerminal, []);
           } else {
             existingTerminal.sendText(command);
           }
