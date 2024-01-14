@@ -3,9 +3,9 @@ import vscode from "vscode";
 const customCommands: {
   [key: string]: (terminal: any, args: string[]) => void;
 } = {
-  "*STOP": handleStop,
-  "*CLOSE": handleClose,
-  "*OPEN_FILE": openFile,
+  "*stop": handleStop,
+  "*close": handleClose,
+  "*open_file": openFile,
 };
 
 function handleStop(terminal: vscode.Terminal) {
