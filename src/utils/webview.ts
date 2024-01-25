@@ -1,14 +1,9 @@
 export default function generateUsageGuideHTML(configFile: any) {
   const sections = Object.keys(configFile);
-  const defaultActions = ["setup", "open", "close", "start", "stop", "restart"];
   const sectionList = sections
     .map(
       (section) => `
-        <h4>Auto Term: ${
-          defaultActions.includes(section)
-            ? section
-            : `action and enter '${section}'`
-        }</h4>
+        <h4>${section}</h4>
         <ul>
           ${generateSectionList(configFile[section])}
         </ul>
@@ -16,7 +11,6 @@ export default function generateUsageGuideHTML(configFile: any) {
     )
     .join("");
 
-  // Wrap everything in a container div
   return `
       <div>
         ${sectionList}
