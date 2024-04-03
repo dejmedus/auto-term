@@ -26,13 +26,35 @@ function manageTerminals(action: string) {
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 function activate(context: vscode.ExtensionContext) {
+  const runOpenCommandsOnStartup: boolean | undefined = vscode.workspace
+    .getConfiguration("autoTerminal")
+    .get("runOpenCommandsOnStartup");
+
+  if (runOpenCommandsOnStartup === undefined) {
+    console.error("Cannot find open on start settings");
+    return;
+  }
+
+  if (runOpenCommandsOnStartup) {
+    const configFile = getConfigFile();
+
+    if (!configFile) {
+      vscode.window.showErrorMessage("terminal.config file not found.");
+      return;
+    }
+
+    if (configFile.hasOwnProperty("open")) {
+      manageTerminals("open");
+    }
+  }
+
   let actionsDisposable = vscode.commands.registerCommand(
     "extension.action",
     () => {
       const configFile = getConfigFile();
 
       if (!configFile) {
-        vscode.window.showErrorMessage("Configuration file not found.");
+        vscode.window.showErrorMessage("terminal.config file not found.");
         return;
       }
 
@@ -40,17 +62,11 @@ function activate(context: vscode.ExtensionContext) {
 
       vscode.window.showQuickPick(actionOptions).then((selectedOption) => {
         if (selectedOption) {
-          vscode.window.showInformationMessage(
-            `Selected action: ${selectedOption}`
-          );
-
           manageTerminals(selectedOption);
         }
       });
     }
   );
-
-  context.subscriptions.push(actionsDisposable);
 
   let usageGuideDisposable = vscode.commands.registerCommand(
     "extension.showUsageGuide",
@@ -84,8 +100,6 @@ function activate(context: vscode.ExtensionContext) {
       panel.webview.html = usageGuideContent;
     }
   );
-
-  context.subscriptions.push(usageGuideDisposable);
 
   let templatesDisposable = vscode.commands.registerCommand(
     "extension.getTemplate",
@@ -126,6 +140,8 @@ function activate(context: vscode.ExtensionContext) {
     }
   );
 
+  context.subscriptions.push(actionsDisposable);
+  context.subscriptions.push(usageGuideDisposable);
   context.subscriptions.push(templatesDisposable);
 }
 

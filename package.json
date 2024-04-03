@@ -17,9 +17,21 @@
     "terminal",
     "tabs"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./out/extension.js",
   "contributes": {
+    "configuration": {
+      "title": "Auto Terminal",
+      "properties": {
+        "autoTerminal.runOpenCommandsOnStartup": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically run 'open' terminal actions when a workspace is opened "
+        }
+      }
+    },
     "commands": [
       {
         "command": "extension.action",
