@@ -23,7 +23,7 @@ function generateSectionList(section: any) {
     .map(
       (config: any) => `
         <li>
-          <strong>${config.name}: </strong> 
+          <strong>${config.tab}: </strong> 
           ${config.description || ""}
           <code>${generateCommandList(config.commands)}</code>
         </li>

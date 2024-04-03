@@ -1,50 +1,50 @@
 {
   "setup": [
     {
-      "name": "git",
+      "tab": "git",
       "commands": ["git branch"],
       "description": "Display the current branch"
     },
     {
-      "name": "frontend",
+      "tab": "frontend",
       "commands": ["npm install"],
       "description": "Install dependencies"
     }
   ],
   "open": [
     {
-      "name": "git",
+      "tab": "git",
       "commands": ["git branch"],
       "description": "Display the current branch"
     },
     {
-      "name": "frontend",
+      "tab": "frontend",
       "commands": ["npm run dev"],
       "description": "Run the app"
     }
   ],
   "start": [
     {
-      "name": "frontend",
+      "tab": "frontend",
       "commands": ["clear", "npm run dev"],
       "description": "Run the app"
     }
   ],
   "stop": [
     {
-      "name": "frontend",
+      "tab": "frontend",
       "commands": ["*STOP", "clear"],
       "description": "Stop the app"
     }
   ],
   "close": [
     {
-      "name": "git",
+      "tab": "git",
       "commands": ["*CLOSE"],
       "description": "Close the terminal"
     },
     {
-      "name": "frontend",
+      "tab": "frontend",
       "commands": ["*CLOSE"],
       "description": "Close the terminal"
     }
