@@ -104,22 +104,37 @@ function activate(context: vscode.ExtensionContext) {
   let templatesDisposable = vscode.commands.registerCommand(
     "extension.getTemplate",
     () => {
+      // custom templates from settings
+      const config = vscode.workspace.getConfiguration("autoTerminal");
+      const customTemplates = config.get("customTemplates") || {};
+      const customTemplateNames = Object.keys(customTemplates);
+
+      // Default templates from the extension
       const templatesDir = path.join(__dirname, "templates");
-      const templateOptions = fs.readdirSync(templatesDir);
+      const defaultTemplates = fs.readdirSync(templatesDir);
+
+      const templateOptions = [...defaultTemplates, ...customTemplateNames];
 
       vscode.window.showQuickPick(templateOptions).then((selectedOption) => {
         if (selectedOption) {
-          vscode.window.showInformationMessage(
-            `Selected Template: ${selectedOption}`
-          );
-          const templateFile: string = getTemplateFile(selectedOption);
+          // vscode.window.showInformationMessage(
+          //   `Selected Template: ${selectedOption}`
+          // );
+
+          const templateFile: string = customTemplateNames.includes(
+            selectedOption
+          )
+            ? JSON.stringify(
+                customTemplates[selectedOption as keyof typeof customTemplates],
+                null,
+                2
+              )
+            : getTemplateFile(selectedOption);
 
           if (!templateFile) {
             vscode.window.showErrorMessage("Template file not found.");
             return;
           }
-
-          console.log("templateFile", templateFile);
 
           if (vscode.workspace.workspaceFolders === undefined) {
             vscode.window.showErrorMessage("No workspace found");
@@ -133,7 +148,7 @@ function activate(context: vscode.ExtensionContext) {
             "terminal.config.json"
           );
 
-          console.log("templateConfigPath", templateConfigPath);
+          // console.log("templateConfigPath", templateConfigPath);
           fs.writeFileSync(templateConfigPath, templateFile);
         }
       });
