@@ -29,7 +29,7 @@
     "jsonValidation": [
       {
         "fileMatch": "terminal.config.json",
-        "url": "./src/lib/schema.json"
+        "url": "./out/lib/schema.json"
       }
     ],
     "configuration": {
