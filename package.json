@@ -2,7 +2,11 @@
   "name": "auto-term-tabs",
   "displayName": "Auto Terminal",
   "description": "Setup and manage terminal tabs",
-  "version": "0.0.5",
+  "repository": "https://github.com/dejmedus/auto-term",
+  "bugs": {
+    "url": "https://github.com/dejmedus/auto-term/issues"
+  },
+  "version": "0.0.6",
   "pricing": "Free",
   "engines": {
     "vscode": "^1.85.0"
