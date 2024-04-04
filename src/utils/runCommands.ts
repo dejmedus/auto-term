@@ -52,7 +52,7 @@ function runCommandLoop(commands: string[], terminal: vscode.Terminal) {
 
       if (!customCommands[commandType.toLowerCase()]) {
         vscode.window.showErrorMessage(
-          `Command ${commandType} not found in custom commands.`
+          `Command ${commandType} not found in special commands.`
         );
         return;
       }
