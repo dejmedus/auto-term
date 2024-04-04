@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "description": "Action name.",
+  "additionalProperties": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "tab": {
+          "type": "string",
+          "description": "Name of the terminal tab"
+        },
+        "commands": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Commands to be executed in this terminal tab."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. Description of the commands"
+        }
+      },
+      "required": ["tab", "commands"],
+      "additionalProperties": false
+    }
+  }
+}
