@@ -29,6 +29,40 @@
           "type": "boolean",
           "default": false,
           "description": "Automatically run 'open' terminal actions when a workspace is opened "
+        },
+        "autoTerminal.customTemplates": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "tab": {
+                    "type": "string",
+                    "description": "Name of the terminal tab"
+                  },
+                  "commands": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Commands to be executed in this tab"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the commands"
+                  }
+                },
+                "required": [
+                  "tab",
+                  "commands"
+                ]
+              }
+            }
+          },
+          "default": {}
         }
       }
     },
@@ -49,8 +83,9 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
+    "precompile": "mkdir -p out/templates",
     "compile": "tsc -p ./",
-    "postcompile": "copyfiles -u 2 src/templates/* out/templates",
+    "postcompile": "cp -r src/templates/* out/templates",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
