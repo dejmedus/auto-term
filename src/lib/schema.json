@@ -1,6 +1,10 @@
 {
   "type": "object",
   "description": "Action name.",
+  "propertyNames": {
+    "type": "string",
+    "minLength": 1
+  },
   "additionalProperties": {
     "type": "array",
     "items": {
@@ -10,12 +14,14 @@
           "properties": {
             "tab": {
               "type": "string",
+              "minLength": 1,
               "description": "Name of the terminal tab"
             },
             "commands": {
               "type": "array",
               "items": {
-                "type": "string"
+                "type": "string",
+                "minLength": 1
               },
               "description": "Commands to be executed in this terminal tab."
             },
@@ -31,12 +37,14 @@
           "properties": {
             "name": {
               "type": "string",
+              "minLength": 1,
               "description": "Name of the terminal tab. Deprecated in favor of 'tab'."
             },
             "commands": {
               "type": "array",
               "items": {
-                "type": "string"
+                "type": "string",
+                "minLength": 1
               },
               "description": "Commands to be executed in this terminal tab."
             },
