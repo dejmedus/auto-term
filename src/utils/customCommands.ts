@@ -42,7 +42,7 @@ function openFile(terminal: vscode.Terminal, args: string[]) {
 
 function echo(terminal: vscode.Terminal, args: string[]) {
   const message = args.join(" ");
-  terminal.sendText(message + " \n", false);
+  terminal.sendText(`echo "${message}"\n`);
 }
 
 function alertMessage(terminal: vscode.Terminal, args: string[]) {
