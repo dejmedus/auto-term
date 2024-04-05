@@ -23,15 +23,8 @@
   "stop": [
     {
       "tab": "tab",
-      "commands": ["*STOP", "clear"],
+      "commands": ["*STOP"],
       "description": "Stop the tab"
-    }
-  ],
-  "restart": [
-    {
-      "tab": "tab",
-      "commands": ["*STOP", "clear", "npm start"],
-      "description": "Restart the tab"
     }
   ],
   "close": [

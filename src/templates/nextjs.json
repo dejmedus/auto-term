@@ -33,7 +33,7 @@
   "stop": [
     {
       "tab": "frontend",
-      "commands": ["*STOP", "clear"],
+      "commands": ["*STOP"],
       "description": "Stop the app"
     }
   ],
