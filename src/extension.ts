@@ -26,13 +26,35 @@ function manageTerminals(action: string) {
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 function activate(context: vscode.ExtensionContext) {
+  const runOpenCommandsOnStartup: boolean | undefined = vscode.workspace
+    .getConfiguration("autoTerminal")
+    .get("runOpenCommandsOnStartup");
+
+  if (runOpenCommandsOnStartup === undefined) {
+    console.error("Cannot find open on start settings");
+    return;
+  }
+
+  if (runOpenCommandsOnStartup) {
+    const configFile = getConfigFile();
+
+    if (!configFile) {
+      vscode.window.showErrorMessage("terminal.config file not found.");
+      return;
+    }
+
+    if (configFile.hasOwnProperty("open")) {
+      manageTerminals("open");
+    }
+  }
+
   let actionsDisposable = vscode.commands.registerCommand(
     "extension.action",
     () => {
       const configFile = getConfigFile();
 
       if (!configFile) {
-        vscode.window.showErrorMessage("Configuration file not found.");
+        vscode.window.showErrorMessage("terminal.config file not found.");
         return;
       }
 
@@ -40,17 +62,11 @@ function activate(context: vscode.ExtensionContext) {
 
       vscode.window.showQuickPick(actionOptions).then((selectedOption) => {
         if (selectedOption) {
-          vscode.window.showInformationMessage(
-            `Selected action: ${selectedOption}`
-          );
-
           manageTerminals(selectedOption);
         }
       });
     }
   );
-
-  context.subscriptions.push(actionsDisposable);
 
   let usageGuideDisposable = vscode.commands.registerCommand(
     "extension.showUsageGuide",
@@ -85,27 +101,40 @@ function activate(context: vscode.ExtensionContext) {
     }
   );
 
-  context.subscriptions.push(usageGuideDisposable);
-
   let templatesDisposable = vscode.commands.registerCommand(
     "extension.getTemplate",
     () => {
+      // custom templates from settings
+      const config = vscode.workspace.getConfiguration("autoTerminal");
+      const customTemplates = config.get("customTemplates") || {};
+      const customTemplateNames = Object.keys(customTemplates);
+
+      // Default templates from the extension
       const templatesDir = path.join(__dirname, "templates");
-      const templateOptions = fs.readdirSync(templatesDir);
+      const defaultTemplates = fs.readdirSync(templatesDir);
+
+      const templateOptions = [...defaultTemplates, ...customTemplateNames];
 
       vscode.window.showQuickPick(templateOptions).then((selectedOption) => {
         if (selectedOption) {
-          vscode.window.showInformationMessage(
-            `Selected Template: ${selectedOption}`
-          );
-          const templateFile: string = getTemplateFile(selectedOption);
+          // vscode.window.showInformationMessage(
+          //   `Selected Template: ${selectedOption}`
+          // );
+
+          const templateFile: string = customTemplateNames.includes(
+            selectedOption
+          )
+            ? JSON.stringify(
+                customTemplates[selectedOption as keyof typeof customTemplates],
+                null,
+                2
+              )
+            : getTemplateFile(selectedOption);
 
           if (!templateFile) {
             vscode.window.showErrorMessage("Template file not found.");
             return;
           }
-
-          console.log("templateFile", templateFile);
 
           if (vscode.workspace.workspaceFolders === undefined) {
             vscode.window.showErrorMessage("No workspace found");
@@ -119,13 +148,15 @@ function activate(context: vscode.ExtensionContext) {
             "terminal.config.json"
           );
 
-          console.log("templateConfigPath", templateConfigPath);
+          // console.log("templateConfigPath", templateConfigPath);
           fs.writeFileSync(templateConfigPath, templateFile);
         }
       });
     }
   );
 
+  context.subscriptions.push(actionsDisposable);
+  context.subscriptions.push(usageGuideDisposable);
   context.subscriptions.push(templatesDisposable);
 }
 

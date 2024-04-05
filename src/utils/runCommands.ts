@@ -11,7 +11,14 @@ export default function runCommands(tabConfig: any) {
     }
 
     tabConfig.forEach((config) => {
-      const terminalName = config.name;
+      const terminalName = config.tab || config.name;
+
+      // if (!config.tab && config.name) {
+      //   vscode.window.showWarningMessage(
+      //     "Please use 'tab' instead of 'name' in the configuration file. (deprecated 0.0.6)"
+      //   );
+      // }
+
       const commands = config.commands;
 
       const existingTerminal = vscode.window.terminals.find(
@@ -22,25 +29,9 @@ export default function runCommands(tabConfig: any) {
         const newTerminal = vscode.window.createTerminal({
           name: terminalName,
         });
-        newTerminal.show();
-        commands.forEach((command: string) => {
-          if (customCommands[command.toLowerCase()]) {
-            console.log("custom command found", command);
-            customCommands[command.toLowerCase()](newTerminal, []);
-          } else {
-            newTerminal.sendText(command);
-          }
-        });
+        runCommandLoop(commands, newTerminal);
       } else {
-        existingTerminal.show();
-        commands.forEach((command: string) => {
-          if (customCommands[command.toLowerCase()]) {
-            console.log("custom command found", command);
-            customCommands[command.toLowerCase()](existingTerminal, []);
-          } else {
-            existingTerminal.sendText(command);
-          }
-        });
+        runCommandLoop(commands, existingTerminal);
       }
     });
   } catch (error) {
@@ -49,3 +40,57 @@ export default function runCommands(tabConfig: any) {
     );
   }
 }
+
+function runCommandLoop(commands: string[], terminal: vscode.Terminal) {
+  terminal.show();
+
+  commands = sortCommands(commands);
+
+  commands.forEach((command: string) => {
+    if (command.startsWith("*")) {
+      const [commandType, ...args] = command.split(" ");
+
+      if (!customCommands[commandType.toLowerCase()]) {
+        vscode.window.showErrorMessage(
+          `Command ${commandType} not found in special commands.`
+        );
+        return;
+      }
+
+      customCommands[commandType.toLowerCase()](terminal, args);
+    } else {
+      terminal.sendText(command);
+    }
+  });
+}
+
+const sortCommands = (commands: string[]) =>
+  commands.reduce(
+    (acc: { result: string[]; curString: string }, command, i) => {
+      if (command.startsWith("*")) {
+        // if custom command
+        if (acc.curString) {
+          acc.result.push(acc.curString.trim());
+          acc.curString = "";
+        }
+        acc.result.push(command);
+      } else {
+        acc.curString += command;
+        if (!commands[i + 1] || commands[i + 1].startsWith("*")) {
+          // if the final command
+          acc.result.push(acc.curString.trim());
+          acc.curString = "";
+          // } else if (commands[i + 1].startsWith("*")) {
+          //   // if the next command is a custom command
+          //   // acc.curString += " && clear";
+          //   acc.result.push(acc.curString.trim());
+          //   acc.curString = "";
+        } else {
+          // if the next command is a command
+          acc.curString += " && ";
+        }
+      }
+      return acc;
+    },
+    { result: [], curString: "" }
+  ).result;

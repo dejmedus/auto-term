@@ -1,7 +1,7 @@
 {
-  "setup": [
+  "open": [
     {
-      "name": "",
+      "tab": "",
       "commands": [],
       "description": ""
     }

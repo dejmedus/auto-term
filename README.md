@@ -1,102 +1,142 @@
-# Auto-Term
+<div align="center">
+  <h2>Auto Terminal</h2>
+</div>
 
-Auto-Term is a Visual Studio Code extension that allows you to automate the process of opening and configuring multiple terminal tabs when you open a workspace. This is useful for quickly setting up terminals, running commands, navigating directories, and more.
+Auto Terminal is an extension that allows you to run sets of terminal commands in bulk. This is useful for quickly setting up terminals, running commands, navigating directories, and more.
 
-## Usage
+### Usage
 
-1. Open your workspace in Visual Studio Code.
-2. Press `Ctrl+Shift+P` to open the command palette.
-3. Type `Auto Term: <action>` or `Auto Term: Action` and select an action.
-4. Auto-Term will read your terminal configurations and run the specified commands.
+1. Open your workspace in VS Code.
+2. Create a [`terminal.config.json`](#terminal-configuration) file in the root of your workspace.
+3. Open the command palette. (macOS/Linux: `Cmd + Shift + P`, Windows: `Ctrl + Shift + P`)
+4. Type `Auto Terminal: Action` and select an action.
+5. Auto Terminal will read your terminal configurations and run the commands.
 
-## Configuration
+### Terminal Configuration
 
-You can define your terminal configurations in a `terminal.config.json` file in the root of your workspace. The file should be structured by action, each containing and array of terminal tab commands.
+You can define your terminal configurations in a `terminal.config.json` file in the root of your workspace.
 
-Create a `terminal.config.json` file from template using command `Auto Term: Template`
+Create a `terminal.config.json` file from template using command [`Auto Terminal: Template`](#terminal-configuration-templates)
 
 Example:
 
 ```json
 {
-  // Here, setup will open two terminal tabs: frontend and backend, then installs needed packages
+  // action name
   "setup": [
     {
-      "name": "frontend",
-      "commands": ["cd Frontend", "npm i", "clear"],
-      "description": "Install npm packages"
+      "tab": "frontend", // tab name
+      "commands": ["cd Frontend", "npm i", "clear", "code app/page.tsx"], // array of commands
+      "description": "Install npm packages" // optional description
     },
     {
-      "name": "backend",
+      "tab": "backend",
       "commands": [
         "cd Backend",
         "source venv/bin/activate",
         "pip install -r requirements.txt",
-        "python manage migrate",
         "clear"
       ],
       "description": "Install requirements.txt"
     }
   ],
+  // If Auto Terminal: Run Open Commands On Startup setting is true, "open" commands will run on workspace launch
   "open": [
     {
-      "name": "git",
+      "tab": "git",
       "commands": ["git branch"],
       "description": "Display the current branch"
     },
     {
-      "name": "frontend",
+      "tab": "frontend",
       "commands": ["cd Frontend"],
       "description": "Open a terminal for frontend"
     },
     {
-      "name": "backend",
+      "tab": "backend",
       "commands": ["cd Backend", "source venv/bin/activate"],
       "description": "Open a terminal for backend"
     }
   ],
   "start": [
     {
-      "name": "frontend",
+      "tab": "frontend",
       "commands": ["clear", "npm run dev"],
       "description": "Run the frontend"
     },
     {
-      "name": "backend",
+      "tab": "backend",
       "commands": ["clear", "python manage.py runserver"],
       "description": "Run the backend"
-    }
-  ],
-  "restart": [
-    {
-      "name": "frontend",
-      "commands": ["*STOP", "clear", "npm run dev"],
-      "description": "Restart the frontend"
-    },
-    {
-      "name": "backend",
-      "commands": ["*STOP", "clear", "python manage.py runserver"],
-      "description": "Restart the backend"
-    }
-  ],
-  "reminder": [
-    {
-      "name": "git",
-      "commands": ["echo 'remember to pull new changes from main'"],
-      "description": "Reminder"
     }
   ]
 }
 ```
 
-#### Special commands
+### Terminal Configuration Templates
 
-Auto-Term provides special commands that can be utilized to perform specific actions beyond standard text input. Here are some notable commands:
+#### Add a template `terminal.config.json` file to your workspace:
 
-- "*STOP" : Use this command to gracefully stop a running process. Usage:`"commands": ["*STOP", "clear"]` will stop the associated process and clear the terminal.
-- "*CLOSE": Employ this command to close a terminal. It's useful for cleaning up unnecessary terminals. Usage: `"commands": ["*CLOSE"]`
+1. Open the command palette. (macOS/Linux: `Cmd + Shift + P`, Windows: `Ctrl + Shift + P`)
+2. Type `Auto Terminal: Template` and select a template option.
+
+#### Add re-usable custom templates:
+
+1. Open your User settings (Code/File > Settings/Preferences > Settings).
+2. Search for `Auto Terminal: Custom Templates`.
+3. Add a new key-value pair to the customTemplates object, where the key is the template name and the value is the template itself.
+
+```json
+"autoTerminal.customTemplates": {
+    "custom template name": {
+      "actionName": [
+        {
+          "tab": "",
+          "commands": [],
+          "description": ""
+        }
+      ],
+      "actionName2": [
+        {
+          "tab": "",
+          "commands": [],
+          "description": ""
+        }
+      ]
+    }
+  }
+```
+
+4. The custom template will now be an option when running command `Auto Terminal: Template`
+
+### Auto Run Commands on Startup
+
+When the `Auto Terminal: Run Open Commands On Startup` setting is enabled any commands specified under the "open" action in your `terminal.config.json` file will be automatically executed when you open your workspace.
+
+To enable:
+
+1. Open your workspace settings (Code/File > Settings/Preferences > Settings).
+2. Search for `Auto Terminal: Run Open Commands On Startup`.
+3. Check the box to enable the setting.
+
+### Special Commands
+
+Auto Terminal provides special commands that can be utilized to perform specific actions beyond standard text input. These always begin with "\*".
+
+**! Best used on their own**
+
+| Command | Description              | Usage                    |
+| ------- | ------------------------ | ------------------------ |
+| \*stop  | Stops a running process. | `"commands": ["*stop"]`  |
+| \*close | Closes the terminal.     | `"commands": ["*close"]` |
+
+<!-- | \*alert     | Creates a notification.\* | `"commands": ["*alert remember to open PR"]` | -->
+<!-- | \*open_file | Opens a file in editor.\  | `"commands": ["*open_file app/page.tsx"]`    | -->
+<!-- | \*echo | Send text to terminal.\  | `"commands": ["*echo remember to pull changes"]`    | -->
+
+<!-- _\* there can only be 3 alert windows open at a time_ -->
 
 #### Tips:
 
-- If an existing terminal of "name" cannot be found a new terminal will be created.
-- Press `Ctrl+Shift+P` and type `Auto Term: Show usage guide` to view an overview of your `terminal.config.json` commands
+- If an existing "tab" cannot be found a new terminal will be created.
+- Press `Ctrl+Shift+P` and type `Auto Terminal: Show usage guide` to view an overview of your `terminal.config.json` commands

@@ -1,0 +1,39 @@
+{
+  "open": [
+    {
+      "name": "zsh",
+      "commands": ["*CLOSE"],
+      "description": "close current tab"
+    },
+    {
+      "name": "git",
+      "commands": ["git branch"],
+      "description": "open git tab"
+    },
+    {
+      "name": "test",
+      "commands": [],
+      "description": "open test tab"
+    }
+  ],
+  "test": [
+    {
+      "name": "test",
+      "commands": ["npm run test"],
+      "description": "run tests"
+    }
+  ],
+  "upgrade": [
+    {
+      "name": "upgrade",
+      "commands": [
+        "*alert Checklist: 1. Update CHANGELOG.md 2. Up version in package.json 3. Ensure tests pass",
+        "code CHANGELOG.md",
+        "code package.json",
+        "npm run test",
+        "*echo vsix: vsce package | publish: vsce publish"
+      ],
+      "description": "upgrade"
+    }
+  ]
+}

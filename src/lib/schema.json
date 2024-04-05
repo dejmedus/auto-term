@@ -1,0 +1,62 @@
+{
+  "type": "object",
+  "description": "Action name.",
+  "propertyNames": {
+    "type": "string",
+    "minLength": 1
+  },
+  "additionalProperties": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "anyOf": [
+        {
+          "properties": {
+            "tab": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Name of the terminal tab"
+            },
+            "commands": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "description": "Commands to be executed in this terminal tab."
+            },
+            "description": {
+              "type": "string",
+              "description": "Optional. Description of the commands"
+            }
+          },
+          "required": ["tab", "commands"],
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Name of the terminal tab. Deprecated in favor of 'tab'."
+            },
+            "commands": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "description": "Commands to be executed in this terminal tab."
+            },
+            "description": {
+              "type": "string",
+              "description": "Optional. Description of the commands"
+            }
+          },
+          "required": ["name", "commands"],
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}
