@@ -36,10 +36,9 @@ function activate(context: vscode.ExtensionContext) {
   }
 
   if (runOpenCommandsOnStartup) {
-    const configFile = getConfigFile();
+    const configFile = getConfigFile(true);
 
     if (!configFile) {
-      vscode.window.showErrorMessage("terminal.config file not found.");
       return;
     }
 
