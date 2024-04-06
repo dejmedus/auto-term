@@ -1,6 +1,11 @@
 import vscode from "vscode";
 import customCommands from "./customCommands";
 
+/**
+ * This function runs a set of commands in a specified terminal tab.
+ * @param tabConfig - An array of configuration objects for each terminal tab. Each object should have a 'tab' or 'name' property for the terminal name, and a 'commands' property with an array of commands to run.
+ * @throws {Error} If the tabConfig parameter is not an array.
+ */
 export default function runCommands(tabConfig: any) {
   try {
     if (!Array.isArray(tabConfig)) {
