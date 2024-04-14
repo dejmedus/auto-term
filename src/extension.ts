@@ -146,7 +146,7 @@ function activate(context: vscode.ExtensionContext) {
   }
 
   if (runOpenCommandsOnStartup) {
-    const configFile = getConfigFile(true);
+    const configFile = getConfigFile(true, true);
 
     if (configFile) {
       if (configFile.hasOwnProperty("open")) {
