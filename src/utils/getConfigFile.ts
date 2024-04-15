@@ -2,6 +2,14 @@ import vscode from "vscode";
 import path from "path";
 import fs from "fs";
 
+export interface IConfigFile {
+  [key: string]: Array<{
+    tab: string;
+    commands: string[];
+    description?: string;
+  }>;
+}
+
 /**
  * This function retrieves the configuration file.
  * @param allowMissingConfig - If true, no error messages will be displayed when the configuration file is missing. Defaults to false.
@@ -10,7 +18,7 @@ import fs from "fs";
 export default function getConfigFile(
   allowMissingConfig: boolean = false,
   allowMissingWorkspace: boolean = false
-) {
+): IConfigFile | undefined {
   const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
 
   if (!workspaceFolder) {
@@ -20,12 +28,12 @@ export default function getConfigFile(
     return;
   }
 
-  const configFile = path.join(
+  const terminalConfig = path.join(
     workspaceFolder.uri.fsPath,
     "terminal.config.json"
   );
 
-  if (!fs.existsSync(configFile)) {
+  if (!fs.existsSync(terminalConfig)) {
     if (!allowMissingConfig) {
       vscode.window.showErrorMessage(
         "terminal.config.json not found in the workspace."
@@ -34,9 +42,9 @@ export default function getConfigFile(
     return;
   }
 
-  const terminalConfigurations = JSON.parse(
-    fs.readFileSync(configFile, "utf8")
+  const configFile: IConfigFile = JSON.parse(
+    fs.readFileSync(terminalConfig, "utf8")
   );
 
-  return terminalConfigurations;
+  return configFile;
 }
