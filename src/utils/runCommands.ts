@@ -69,7 +69,7 @@ function runCommandLoop(commands: string[], terminal: vscode.Terminal) {
   });
 }
 
-const sortCommands = (commands: string[]) =>
+export const sortCommands = (commands: string[]) =>
   commands.reduce(
     (acc: { result: string[]; curString: string }, command, i) => {
       if (command.startsWith("*")) {
