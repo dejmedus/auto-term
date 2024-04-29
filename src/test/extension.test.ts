@@ -1,10 +1,11 @@
 import * as assert from "assert";
 import * as vscode from "vscode";
-import * as myExtension from "../extension";
+
 import * as fs from "fs";
 import * as path from "path";
-import getTemplateFile from "../utils/getTemplateFile";
-import { sortCommands } from "../utils/runCommands";
+
+import { getTemplateFile } from "@/commands/getTemplate";
+import { sortCommands } from "@/utils/runCommands";
 
 suite("Extension Test Suite", () => {
   test("settings config is found", () => {
