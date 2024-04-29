@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 
-import getConfigFile from "@/utils/getConfigFile";
+import getConfigFile from "../utils/getConfigFile";
 
 export function showUsageGuideDisposable(context: vscode.ExtensionContext) {
   return vscode.commands.registerCommand("extension.showUsageGuide", () => {

@@ -4,8 +4,8 @@ import * as vscode from "vscode";
 import * as fs from "fs";
 import * as path from "path";
 
-import { getTemplateFile } from "@/commands/getTemplate";
-import { sortCommands } from "@/utils/runCommands";
+import { getTemplateFile } from "../commands/getTemplate";
+import { sortCommands } from "../utils/runCommands";
 
 suite("Extension Test Suite", () => {
   test("settings config is found", () => {

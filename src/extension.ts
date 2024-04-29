@@ -1,11 +1,11 @@
 import * as vscode from "vscode";
 
-import manageTerminals from "@/utils/manageTerminals";
-import getConfigFile from "@/utils/getConfigFile";
+import manageTerminals from "./utils/manageTerminals";
+import getConfigFile from "./utils/getConfigFile";
 
-import actionDisposable from "@/commands/action";
-import showUsageGuideDisposable from "@/commands/showUsageGuide";
-import getTemplateDisposable from "@/commands/getTemplate";
+import actionDisposable from "./commands/action";
+import showUsageGuideDisposable from "./commands/showUsageGuide";
+import getTemplateDisposable from "./commands/getTemplate";
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed

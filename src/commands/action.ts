@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 
-import manageTerminals from "@/utils/manageTerminals";
-import getConfigFile from "@/utils/getConfigFile";
+import manageTerminals from "../utils/manageTerminals";
+import getConfigFile from "../utils/getConfigFile";
 
 let actionDisposable = vscode.commands.registerCommand(
   "extension.action",

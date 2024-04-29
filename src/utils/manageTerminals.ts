@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 
-import runCommands from "@/utils/runCommands";
-import getConfigFile from "@/utils/getConfigFile";
+import runCommands from "../utils/runCommands";
+import getConfigFile from "../utils/getConfigFile";
 
 /**
  * This function retrieves the config file and runs the commands associated with the action.
