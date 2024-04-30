@@ -6,7 +6,7 @@
   "bugs": {
     "url": "https://github.com/dejmedus/auto-term/issues"
   },
-  "version": "0.0.62",
+  "version": "0.0.7",
   "pricing": "Free",
   "engines": {
     "vscode": "^1.85.0"
@@ -25,6 +25,10 @@
     "onStartupFinished"
   ],
   "main": "./out/extension.js",
+  "enabledApiProposals": [
+    "terminalShellIntegration",
+    "terminalExecuteCommandEvent"
+  ],
   "contributes": {
     "jsonValidation": [
       {
@@ -89,6 +93,69 @@
         "command": "extension.getTemplate",
         "title": "Auto Term: Template"
       }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "extension.action",
+          "when": "view == terminal",
+          "group": "navigation",
+          "title": "Terminal Action"
+        }
+      ]
+    },
+    "walkthroughs": [
+      {
+        "id": "auto-terminal-walkthrough",
+        "title": "Auto Terminal",
+        "description": "How to setup and use Auto Terminal.",
+        "steps": [
+          {
+            "id": "setup-terminal-configuration",
+            "title": "Setup Terminal Configuration",
+            "description": "Create your terminal.config.json file, or choose a template.",
+            "completionEvents": [
+              "onFileCreated:terminal.config.json"
+            ],
+            "media": {
+              "image": "./images/walkthrough-config-file.png",
+              "altText": "Setup Terminal Configuration"
+            }
+          },
+          {
+            "id": "changesetting",
+            "title": "Change Setting",
+            "description": "This step will change a setting and check off when the setting has changed\n[Change Setting](command:autoTerminal.runOpenCommandsOnStartup)",
+            "media": {
+              "markdown": "markdown.md"
+            },
+            "completionEvents": [
+              "onSettingChanged:autoTerminal.runOpenCommandsOnStartup"
+            ]
+          },
+          {
+            "id": "run-commands",
+            "title": "Run Commands",
+            "description": "Use command `Auto Terminal: Action` to select an action to run.",
+            "completionEvents": [
+              "onCommandExecuted:Auto Terminal: Action"
+            ],
+            "media": {
+              "image": "./images/walkthrough-action.png",
+              "altText": "Setup Terminal Configuration"
+            }
+          },
+          {
+            "id": "auto-run-on-startup",
+            "title": "Auto Run Commands on Startup",
+            "description": "Enable the `Auto Terminal: Run Open Commands On Startup` setting in your workspace settings to automatically execute commands specified under the 'open' action in your `terminal.config.json` file when you open your workspace.",
+            "media": {
+              "image": "./images/walkthrough-config-file.png",
+              "altText": "Setup Terminal Configuration"
+            }
+          }
+        ]
+      }
     ]
   },
   "scripts": {
@@ -104,7 +171,6 @@
   "devDependencies": {
     "@types/mocha": "^10.0.6",
     "@types/node": "18.x",
-    "@types/vscode": "^1.85.0",
     "@typescript-eslint/eslint-plugin": "^6.15.0",
     "@typescript-eslint/parser": "^6.15.0",
     "@vscode/test-cli": "^0.0.4",
