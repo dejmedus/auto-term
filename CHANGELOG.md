@@ -2,10 +2,19 @@
 
 ## Upcoming
 
-- special commands `*alert`, `*echo`, and `*open_file`
-- refactor special command chaining
 - yaml config files
 - templates for common workflows
+
+## 0.0.7
+
+- better command chaining
+  - requires: "terminal.integrated.shellIntegration.enabled": true
+  - fixes: special commands sometimes run out of order
+- alert on command error/failure
+- [`Auto Terminal: Add Quick Run To Terminal`](README.md#quick-run-actions-from-terminal) settings toggle. Quick run `Auto Term: Action` from the terminal menu bar
+- setup/use walkthrough
+- special commands `*alert` and `*echo`
+  - \*echo allows use of echo command without inner brackets "echo 'original'" vs "\*echo special cmd"
 
 ## 0.0.6
 
