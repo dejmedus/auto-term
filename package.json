@@ -14,7 +14,7 @@
   "categories": [
     "Other"
   ],
-  "icon": "images/icon.png",
+  "icon": "assets/icon.png",
   "publisher": "dejmedus",
   "license": "MIT",
   "keywords": [
@@ -111,49 +111,43 @@
       {
         "id": "auto-terminal-walkthrough",
         "title": "Auto Terminal",
-        "description": "How to setup and use Auto Terminal.",
+        "description": "Learn how to set up and use Auto Terminal for streamlined terminal configuration.",
         "steps": [
           {
+            "id": "enable-shell-integration",
+            "title": "Setup",
+            "description": "Ensure shell integration is enabled \n[Open Settings](command:workbench.action.openSettings?%22terminal.integrated.shellIntegration.enabled%22)",
+            "media": {
+              "markdown": "/assets/walkthrough/shellIntegration.md"
+            }
+          },
+          {
             "id": "setup-terminal-configuration",
-            "title": "Setup Terminal Configuration",
-            "description": "Create your terminal.config.json file, or choose a template.",
+            "title": "Create Terminal Config File",
+            "description": "Create a `terminal.config.json` file at root or choose a template. \n[Choose template](command:extension.getTemplate)",
             "completionEvents": [
               "onFileCreated:terminal.config.json"
             ],
             "media": {
-              "image": "./images/walkthrough-config-file.png",
+              "image": "./assets/walkthrough/terminal-config-file.png",
               "altText": "Setup Terminal Configuration"
             }
           },
           {
-            "id": "changesetting",
-            "title": "Change Setting",
-            "description": "This step will change a setting and check off when the setting has changed\n[Change Setting](command:autoTerminal.runOpenCommandsOnStartup)",
-            "media": {
-              "markdown": "markdown.md"
-            },
-            "completionEvents": [
-              "onSettingChanged:autoTerminal.runOpenCommandsOnStartup"
-            ]
-          },
-          {
             "id": "run-commands",
-            "title": "Run Commands",
-            "description": "Use command `Auto Terminal: Action` to select an action to run.",
-            "completionEvents": [
-              "onCommandExecuted:Auto Terminal: Action"
-            ],
+            "title": "Use Actions",
+            "description": "Start an action wtih the `Auto Terminal: Action` command. \n[Run Action](command:extension.action)",
             "media": {
-              "image": "./images/walkthrough-action.png",
+              "image": "./assets/walkthrough/action.png",
               "altText": "Setup Terminal Configuration"
             }
           },
           {
             "id": "auto-run-on-startup",
-            "title": "Auto Run Commands on Startup",
-            "description": "Enable the `Auto Terminal: Run Open Commands On Startup` setting in your workspace settings to automatically execute commands specified under the 'open' action in your `terminal.config.json` file when you open your workspace.",
+            "title": "Update Settings",
+            "description": "Run on open, quick run, and custom templates can be configured in the settings. \n[Open Settings](command:workbench.action.openSettings?%22autoTerminal%22)",
             "media": {
-              "image": "./images/walkthrough-config-file.png",
+              "image": "./assets/walkthrough/settings-config.png",
               "altText": "Setup Terminal Configuration"
             }
           }
