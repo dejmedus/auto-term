@@ -11,7 +11,7 @@ let getTemplateDisposable = vscode.commands.registerCommand(
     const customTemplateNames = Object.keys(customTemplates);
 
     // default templates from the extension
-    const templatesDir = path.join(__dirname, "templates");
+    const templatesDir = path.join(__dirname, "../templates");
     const defaultTemplates = fs.readdirSync(templatesDir);
 
     const templateOptions = [...defaultTemplates, ...customTemplateNames];
