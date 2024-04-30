@@ -26,8 +26,7 @@
   ],
   "main": "./out/extension.js",
   "enabledApiProposals": [
-    "terminalShellIntegration",
-    "terminalExecuteCommandEvent"
+    "terminalShellIntegration"
   ],
   "contributes": {
     "jsonValidation": [
@@ -43,6 +42,11 @@
           "type": "boolean",
           "default": false,
           "description": "Automatically run 'open' terminal actions when a workspace is opened "
+        },
+        "autoTerminal.addQuickRunToTerminal": {
+          "type": "boolean",
+          "default": true,
+          "description": "Add a button to open action options from the terminal"
         },
         "autoTerminal.customTemplates": {
           "type": "object",
@@ -98,9 +102,8 @@
       "view/title": [
         {
           "command": "extension.action",
-          "when": "view == terminal",
-          "group": "navigation",
-          "title": "Terminal Action"
+          "when": "view == terminal && config.autoTerminal.addQuickRunToTerminal == true",
+          "group": "navigation"
         }
       ]
     },
@@ -160,13 +163,14 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
-    "precompile": "mkdir -p out/templates; mkdir -p out/lib",
+    "precompile": "mkdir -p out/templates; mkdir -p out/lib; cp -r src/templates/* out/templates; cp -r src/lib/schema.json out/lib",
     "compile": "tsc -p ./",
-    "postcompile": "cp -r src/templates/* out/templates; cp -r src/lib/schema.json out/lib",
+    "prewatch": "mkdir -p out/templates; mkdir -p out/lib; cp -r src/templates/* out/templates; cp -r src/lib/schema.json out/lib",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "p-api": "npx @vscode/dts dev && npx @vscode/dts main"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.6",
