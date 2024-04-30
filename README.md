@@ -4,7 +4,7 @@
 
 Auto Terminal is an extension that allows you to run sets of terminal commands in bulk. This is useful for quickly setting up terminal tabs, running command flows, navigating directories, and more.
 
-### Usage
+## Usage
 
 1. Open your workspace in VS Code.
 2. Create a [`terminal.config.json`](#terminal-configuration) file in the root of your workspace.
@@ -12,11 +12,11 @@ Auto Terminal is an extension that allows you to run sets of terminal commands i
 4. Type `Auto Terminal: Action` and select an action.
 5. Auto Terminal will read your terminal configurations and run the commands.
 
-### Terminal Configuration
+## Terminal Configuration
 
-You can define your terminal configurations in a `terminal.config.json` file in the root of your workspace.
+a) Define terminal configurations in a `terminal.config.json` file at the root of your workspace.
 
-Create a `terminal.config.json` file from template using command [`Auto Terminal: Template`](#terminal-configuration-templates)
+b) Create a `terminal.config.json` file from template using command [`Auto Terminal: Template`](#terminal-configuration-templates)
 
 Example:
 
@@ -73,7 +73,7 @@ Example:
 }
 ```
 
-### Terminal Configuration Templates
+## Terminal Configuration Templates
 
 #### Add a template `terminal.config.json` file to your workspace:
 
@@ -109,7 +109,7 @@ Example:
 
 4. The custom template will now be an option when running command `Auto Terminal: Template`
 
-### Extension Configuration Extras
+## Extra Settings
 
 #### Auto Run Commands on Startup
 
@@ -125,7 +125,7 @@ When the `Auto Terminal: Add Quick Run To Terminal` setting is enabled a button 
 2. Search for `Auto Terminal: <Run Open Commands On Startup/Add Quick Run To Terminal>`.
 3. Check the box to enable the setting.
 
-### Special Commands
+## Special Commands
 
 Auto Terminal provides special commands that can be utilized to perform specific actions beyond standard text input. These always begin with "\*".
 
