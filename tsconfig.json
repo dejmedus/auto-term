@@ -13,5 +13,9 @@
     // "noUnusedParameters": true,  /* Report errors on unused parameters. */
   },
   "exclude": ["./node_modules"],
-  "include": ["./src/**/*", "./vscode.d.ts", "./vscode.proposed.terminalShellIntegration.d.ts", "./vscode.proposed.terminalExecuteCommandEvent.d.ts" ]
+  "include": [
+    "./src/**/*",
+    "./vscode.d.ts",
+    "./vscode.proposed.terminalShellIntegration.d.ts"
+  ]
 }
