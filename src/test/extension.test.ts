@@ -5,7 +5,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { getTemplateFile } from "../commands/getTemplate";
-import { sortCommands } from "../utils/runCommands";
+import { sortCommands } from "../utils/runAction";
 
 suite("Extension Test Suite", () => {
   test("settings config is found", () => {

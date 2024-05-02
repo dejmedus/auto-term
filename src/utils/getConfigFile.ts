@@ -11,7 +11,7 @@ export interface IConfigFile {
 }
 
 /**
- * This function retrieves the configuration file.
+ * Retrieves the configuration file.
  * @param allowMissingConfig - If true, no error messages will be displayed when the configuration file is missing. Defaults to false.
  * @param allowMissingWorkspace - If true, no error messages will be displayed when a workspace is missing. Defaults to false.
  */
