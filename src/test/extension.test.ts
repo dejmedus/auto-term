@@ -1,9 +1,11 @@
 import * as assert from "assert";
 import * as vscode from "vscode";
-import * as myExtension from "../extension";
+
 import * as fs from "fs";
 import * as path from "path";
-import getTemplateFile from "../utils/getTemplateFile";
+
+import { getTemplateFile } from "../commands/getTemplate";
+import { sortCommands } from "../utils/runAction";
 
 suite("Extension Test Suite", () => {
   test("settings config is found", () => {
@@ -42,5 +44,12 @@ suite("Extension Test Suite", () => {
       "utf8"
     );
     assert.strictEqual(templateContent, expectedContent);
+  });
+
+  test("commands are correctly chained", () => {
+    const expectedChain = ["*close", "cd folder && npm run dev", "*stop"];
+    const chain = sortCommands(["*close", "cd folder", "npm run dev", "*stop"]);
+
+    assert.deepStrictEqual(expectedChain, chain);
   });
 });

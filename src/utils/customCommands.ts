@@ -1,54 +1,47 @@
 import vscode from "vscode";
+import { sendCommandToShell } from "./shellIntegration";
 
 const customCommands: {
-  [key: string]: (terminal: any, args: string[]) => void;
+  [key: string]: (terminal: any, args: string[]) => Promise<void>;
 } = {
   "*stop": handleStop,
   "*close": handleClose,
-  "*open_file": openFile,
   "*alert": alertMessage,
   "*echo": echo,
 };
 
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 async function handleStop(terminal: vscode.Terminal) {
   const pid = await terminal.processId;
-  terminal.sendText(`kill -SIGINT ${pid}`);
+  await sendCommandToShell(`kill -SIGINT ${pid}`, terminal);
 }
 
-function handleClose(terminal: vscode.Terminal) {
-  terminal.dispose();
-}
-
-function openFile(terminal: vscode.Terminal, args: string[]) {
-  if (args.length === 0) {
-    vscode.window.showErrorMessage("No file name provided");
-    return;
-  }
-
-  const fileName = args[0];
-  if (
-    !vscode.workspace.textDocuments.some((doc) => doc.fileName === fileName)
-  ) {
-    vscode.window.showErrorMessage(`File ${fileName} does not exist`);
-    return;
-  }
-
-  vscode.workspace
-    .openTextDocument(fileName)
-    .then((doc: vscode.TextDocument) => {
-      vscode.window.showTextDocument(doc);
+async function handleClose(terminal: vscode.Terminal) {
+  await new Promise<void>((resolve) => {
+    const disposable = vscode.window.onDidCloseTerminal((closedTerminal) => {
+      if (closedTerminal === terminal) {
+        disposable.dispose();
+        resolve();
+      }
     });
+
+    terminal.dispose();
+  });
 }
 
-function echo(terminal: vscode.Terminal, args: string[]) {
+async function echo(terminal: vscode.Terminal, args: string[]) {
   const message = args.join(" ");
-  terminal.sendText(`echo "${message}"\n`);
+  await sendCommandToShell(`echo "${message}"\n`, terminal);
 }
 
-function alertMessage(terminal: vscode.Terminal, args: string[]) {
+async function alertMessage(terminal: vscode.Terminal, args: string[]) {
   // vscode only allows 3 notifications open at a time
   const message = args.join(" ");
   vscode.window.showInformationMessage(message);
+  await delay(1000);
 }
 
 export default customCommands;

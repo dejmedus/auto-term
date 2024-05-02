@@ -2,9 +2,9 @@
   <h2>Auto Terminal</h2>
 </div>
 
-Auto Terminal is an extension that allows you to run sets of terminal commands in bulk. This is useful for quickly setting up terminals, running commands, navigating directories, and more.
+Auto Terminal is an extension that allows you to run sets of terminal commands in bulk. This is useful for quickly setting up terminal tabs, running command flows, navigating directories, and more.
 
-### Usage
+## Usage
 
 1. Open your workspace in VS Code.
 2. Create a [`terminal.config.json`](#terminal-configuration) file in the root of your workspace.
@@ -12,11 +12,11 @@ Auto Terminal is an extension that allows you to run sets of terminal commands i
 4. Type `Auto Terminal: Action` and select an action.
 5. Auto Terminal will read your terminal configurations and run the commands.
 
-### Terminal Configuration
+## Terminal Configuration
 
-You can define your terminal configurations in a `terminal.config.json` file in the root of your workspace.
+a) Define terminal configurations in a `terminal.config.json` file at the root of your workspace.
 
-Create a `terminal.config.json` file from template using command [`Auto Terminal: Template`](#terminal-configuration-templates)
+b) Create a `terminal.config.json` file from template using command [`Auto Terminal: Template`](#terminal-configuration-templates)
 
 Example:
 
@@ -73,7 +73,7 @@ Example:
 }
 ```
 
-### Terminal Configuration Templates
+## Terminal Configuration Templates
 
 #### Add a template `terminal.config.json` file to your workspace:
 
@@ -109,34 +109,36 @@ Example:
 
 4. The custom template will now be an option when running command `Auto Terminal: Template`
 
-### Auto Run Commands on Startup
+## Extra Settings
+
+#### Auto Run Commands on Startup
 
 When the `Auto Terminal: Run Open Commands On Startup` setting is enabled any commands specified under the "open" action in your `terminal.config.json` file will be automatically executed when you open your workspace.
 
-To enable:
+#### Quick Run Actions From Terminal
+
+When the `Auto Terminal: Add Quick Run To Terminal` setting is enabled a button to quickly run `Auto Term: Action` will be added to the terminal menu bar.
+
+#### To enable:
 
 1. Open your workspace settings (Code/File > Settings/Preferences > Settings).
-2. Search for `Auto Terminal: Run Open Commands On Startup`.
+2. Search for `Auto Terminal: <Run Open Commands On Startup/Add Quick Run To Terminal>`.
 3. Check the box to enable the setting.
 
-### Special Commands
+## Special Commands
 
 Auto Terminal provides special commands that can be utilized to perform specific actions beyond standard text input. These always begin with "\*".
 
-**! Best used on their own**
+| Command | Description               | Usage                                            |
+| ------- | ------------------------- | ------------------------------------------------ |
+| \*stop  | Stops a running process.  | `"commands": ["*stop"]`                          |
+| \*close | Closes the terminal.      | `"commands": ["*close"]`                         |
+| \*alert | Creates a notification.\* | `"commands": ["*alert remember to open PR"]`     |
+| \*echo  | Send text to terminal.    | `"commands": ["*echo remember to pull changes"]` |
 
-| Command | Description              | Usage                    |
-| ------- | ------------------------ | ------------------------ |
-| \*stop  | Stops a running process. | `"commands": ["*stop"]`  |
-| \*close | Closes the terminal.     | `"commands": ["*close"]` |
-
-<!-- | \*alert     | Creates a notification.\* | `"commands": ["*alert remember to open PR"]` | -->
-<!-- | \*open_file | Opens a file in editor.\  | `"commands": ["*open_file app/page.tsx"]`    | -->
-<!-- | \*echo | Send text to terminal.\  | `"commands": ["*echo remember to pull changes"]`    | -->
-
-<!-- _\* there can only be 3 alert windows open at a time_ -->
+_\* there can only be 3 alert windows open at a time_
 
 #### Tips:
 
 - If an existing "tab" cannot be found a new terminal will be created.
-- Press `Ctrl+Shift+P` and type `Auto Terminal: Show usage guide` to view an overview of your `terminal.config.json` commands
+- Press `Ctrl+Shift+P` and type `Auto Terminal: Show usage guide` for an overview of your `terminal.config.json` commands
