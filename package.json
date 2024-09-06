@@ -25,9 +25,6 @@
     "onStartupFinished"
   ],
   "main": "./out/extension.js",
-  "enabledApiProposals": [
-    "terminalShellIntegration"
-  ],
   "contributes": {
     "jsonValidation": [
       {
@@ -175,6 +172,10 @@
     "@vscode/test-electron": "^2.3.8",
     "copyfiles": "^2.4.1",
     "eslint": "^8.56.0",
+    "@types/vscode": "^1.85.0",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "-": "^0.0.1"
   }
 }
