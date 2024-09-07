@@ -14,10 +14,16 @@ let getTemplateDisposable = vscode.commands.registerCommand(
     const templatesDir = path.join(__dirname, "../templates");
     const defaultTemplates = fs.readdirSync(templatesDir);
 
-    const templateOptions = [...defaultTemplates, ...customTemplateNames];
+    const templateOptions = [...defaultTemplates, ...customTemplateNames].map(
+      (file) => {
+        return file.replace(".json", "");
+      }
+    );
 
     vscode.window.showQuickPick(templateOptions).then((selectedOption) => {
       if (selectedOption) {
+        selectedOption += ".json";
+
         const templateFile: string = customTemplateNames.includes(
           selectedOption
         )
