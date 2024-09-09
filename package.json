@@ -160,8 +160,7 @@
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
-    "test": "vscode-test",
-    "p-api": "npx @vscode/dts dev && npx @vscode/dts main"
+    "test": "vscode-test"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.6",
@@ -174,8 +173,5 @@
     "eslint": "^8.56.0",
     "@types/vscode": "^1.85.0",
     "typescript": "^5.3.3"
-  },
-  "dependencies": {
-    "-": "^0.0.1"
   }
 }
