@@ -122,7 +122,7 @@ When the `Auto Terminal: Add Quick Run To Terminal` setting is enabled a button 
 #### To enable:
 
 1. Open your workspace settings (Code/File > Settings/Preferences > Settings).
-2. Search for `Auto Terminal: <Run Open Commands On Startup/Add Quick Run To Terminal>`.
+2. Search for `Auto Terminal: Run Open Commands On Startup` or `Add Quick Run To Terminal`.
 3. Check the box to enable the setting.
 
 ## Special Commands
