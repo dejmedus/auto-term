@@ -1,47 +1,80 @@
-import vscode from "vscode";
-import { sendCommandToShell } from "./shellIntegration";
+import { window, Terminal, TerminalShellExecution } from "vscode";
 
-const customCommands: {
-  [key: string]: (terminal: any, args: string[]) => Promise<void>;
-} = {
+export type CommandResult =
+  | { type: "execution"; execution: TerminalShellExecution | undefined }
+  | { type: "cancel" }
+  | { type: "continue" }
+  | { type: "error"; error: Error };
+
+type ExecuteCommand = (
+  command: string,
+  terminal: Terminal
+) => TerminalShellExecution | undefined;
+
+type CustomCommand = (
+  terminal: Terminal,
+  args: string[],
+  executeCommand: ExecuteCommand
+) => Promise<CommandResult>;
+
+type CustomCommands = {
+  [key: string]: CustomCommand;
+};
+
+const customCommands: CustomCommands = {
   "*stop": handleStop,
   "*close": handleClose,
   "*alert": alertMessage,
   "*echo": echo,
 };
 
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-async function handleStop(terminal: vscode.Terminal) {
+async function handleStop(
+  terminal: Terminal,
+  args: string[],
+  executeCommand: ExecuteCommand
+): Promise<CommandResult> {
   const pid = await terminal.processId;
-  await sendCommandToShell(`kill -SIGINT ${pid}`, terminal);
+  const execution = executeCommand(`kill -SIGINT ${pid}`, terminal);
+  return { type: "execution", execution };
 }
 
-async function handleClose(terminal: vscode.Terminal) {
-  await new Promise<void>((resolve) => {
-    const disposable = vscode.window.onDidCloseTerminal((closedTerminal) => {
-      if (closedTerminal === terminal) {
-        disposable.dispose();
-        resolve();
+async function handleClose(terminal: Terminal): Promise<CommandResult> {
+  return await new Promise<CommandResult>((resolve) => {
+    const closeTerminalListener = window.onDidCloseTerminal(
+      (closedTerminal) => {
+        if (closedTerminal === terminal) {
+          closeTerminalListener.dispose();
+          resolve({ type: "cancel" });
+        }
       }
-    });
+    );
 
     terminal.dispose();
   });
 }
 
-async function echo(terminal: vscode.Terminal, args: string[]) {
+async function echo(
+  terminal: Terminal,
+  args: string[],
+  executeCommand: ExecuteCommand
+): Promise<CommandResult> {
   const message = args.join(" ");
-  await sendCommandToShell(`echo "${message}"\n`, terminal);
+  const execution = executeCommand(`echo "${message}"\n`, terminal);
+  return { type: "execution", execution };
 }
 
-async function alertMessage(terminal: vscode.Terminal, args: string[]) {
-  // vscode only allows 3 notifications open at a time
+async function alertMessage(
+  terminal: Terminal,
+  args: string[]
+): Promise<CommandResult> {
   const message = args.join(" ");
-  vscode.window.showInformationMessage(message);
+  window.showInformationMessage(message);
   await delay(1000);
+  return { type: "continue" };
+}
+
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export default customCommands;
