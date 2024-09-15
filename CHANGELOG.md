@@ -8,13 +8,13 @@
 ## 0.0.7
 
 - better command chaining
+  - fixes: long running commands executing out of order
   - requires: "terminal.integrated.shellIntegration.enabled": true
-  - fixes: special commands sometimes run out of order
 - alert on command error/failure
 - [`Auto Terminal: Add Quick Run To Terminal`](README.md#quick-run-actions-from-terminal) settings toggle. Quick run `Auto Term: Action` from the terminal menu bar
 - setup/use walkthrough
-- special commands `*alert` and `*echo`
-  - \*echo allows use of echo command without inner brackets "echo 'original'" vs "\*echo special cmd"
+- special command `*alert`
+- fix: no workspace error when vscode is launched without an open repo
 
 ## 0.0.6
 
