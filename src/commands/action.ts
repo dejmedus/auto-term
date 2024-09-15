@@ -1,23 +1,34 @@
 import * as vscode from "vscode";
 
-import manageTerminals from "../utils/manageTerminals";
+import runAction from "../utils/runAction";
 import getConfigFile from "../utils/getConfigFile";
+import { noShellIntegrationDialog } from "../utils/terminalHelpers";
 
 let actionDisposable = vscode.commands.registerCommand(
   "extension.action",
-  () => {
-    const configFile = getConfigFile();
+  async () => {
+    const shellIntegrationEnabled: boolean | undefined = await vscode.workspace
+      .getConfiguration("terminal.integrated.shellIntegration")
+      .get("enabled");
 
-    if (!configFile) {
-      vscode.window.showErrorMessage("terminal.config file not found.");
+    if (!shellIntegrationEnabled) {
+      noShellIntegrationDialog();
       return;
     }
 
+    const configFile = getConfigFile();
+
+    if (!configFile) {
+      vscode.window.showErrorMessage(
+        `No configuration file found. Please create a terminal.config.json file in the root of your project.`
+      );
+      return;
+    }
     const actionOptions = Object.keys(configFile);
 
-    vscode.window.showQuickPick(actionOptions).then((selectedOption) => {
-      if (selectedOption) {
-        manageTerminals(selectedOption);
+    vscode.window.showQuickPick(actionOptions).then(async (selectedAction) => {
+      if (selectedAction) {
+        await runAction(selectedAction, configFile);
       }
     });
   }
