@@ -34,11 +34,11 @@ export default function getConfigFile(
   );
 
   if (!fs.existsSync(terminalConfig)) {
-    if (!allowMissingConfig) {
+    !allowMissingConfig &&
       vscode.window.showErrorMessage(
         "terminal.config.json not found in the workspace."
       );
-    }
+
     return;
   }
 
