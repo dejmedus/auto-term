@@ -26,6 +26,7 @@ const customCommands: CustomCommands = {
   "*close": handleClose,
   "*alert": alertMessage,
   "*echo": echo,
+  "*delay": handleDelay,
 };
 
 async function handleStop(
@@ -70,6 +71,15 @@ async function alertMessage(
   const message = args.join(" ");
   window.showInformationMessage(message);
   await delay(1000);
+  return { type: "continue" };
+}
+
+async function handleDelay(
+  terminal: Terminal,
+  args: string[]
+): Promise<CommandResult> {
+  const seconds = Number(args[0]);
+  await delay(seconds);
   return { type: "continue" };
 }
 
