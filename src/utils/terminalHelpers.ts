@@ -6,7 +6,7 @@ export async function runInCurrentTerminal(
   commands: string[]
 ) {
   terminal.show();
-  runCommandLoop(terminal, commands);
+  await runCommandLoop(terminal, commands);
 }
 
 export async function runInNewTerminal(
@@ -19,13 +19,14 @@ export async function runInNewTerminal(
 
   newTerminal.show();
 
-  await new Promise<void>(() => {
+  await new Promise<void>((resolve) => {
     const shellIntegrationListener = window.onDidChangeTerminalShellIntegration(
       async ({ terminal, shellIntegration }) => {
         if (terminal === newTerminal) {
           shellIntegrationListener.dispose();
 
           await runCommandLoop(terminal, commands);
+          resolve();
         }
       }
     );
@@ -38,7 +39,8 @@ export async function runCommandLoop(
 ): Promise<void> {
   if (!terminal.shellIntegration) {
     console.error("SOMETHING HAS GONE WRONG");
-    return Promise.reject(new Error("Shell integration is missing"));
+    noShellIntegrationDialog();
+    return;
   }
 
   try {
@@ -48,8 +50,6 @@ export async function runCommandLoop(
           terminal,
           command
         );
-
-        // console.log("command result", commandResult);
 
         if (commandResult.type === "error") {
           window.showErrorMessage(
@@ -122,6 +122,7 @@ export async function runCommand(
         window.showErrorMessage(
           `Command ${commandType} not found in special commands.`
         );
+        return { type: "error", error: new Error("Custom command not found") };
       }
 
       return await customCommands[commandTypeLowerCase](
