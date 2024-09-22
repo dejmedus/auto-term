@@ -1,27 +1,23 @@
+import fs from "fs";
+import path from "path";
 import assert from "assert";
 import { workspace, commands } from "vscode";
 import { spy, assert as sinonAssert } from "sinon";
 import { newTerminalWrap } from "./newTerminalWrap";
 
-import fs from "fs";
-import path from "path";
-
 import { runInCurrentTerminal, runCommand } from "../utils/terminalHelpers";
-
 import { getTemplateFile } from "../commands/getTemplate";
 
 suite("terminal helpers", () => {
   test(
-    "new terminal",
+    "runCommand",
     newTerminalWrap(async (terminal, shellIntegration) => {
-      const commands = ["echo 'woww tests'"];
-
       const shellIntegrationSpy = spy(shellIntegration, "executeCommand");
 
+      const commands = ["echo 'woww tests'"];
       for (const command of commands) {
         await runCommand(terminal, command);
       }
-
       sinonAssert.calledWith(shellIntegrationSpy, "echo 'woww tests'");
 
       shellIntegrationSpy.restore();
@@ -29,7 +25,7 @@ suite("terminal helpers", () => {
   );
 
   test(
-    "command loop",
+    "runInCurrentTerminal",
     newTerminalWrap(async (terminal, shellIntegration) => {
       const shellIntegrationSpy = spy(shellIntegration, "executeCommand");
 
@@ -51,7 +47,8 @@ suite("terminal helpers", () => {
       shellIntegrationSpy.restore();
     }, "command loop")
   );
-  test("command types", async () => {
+
+  test("returns correct type", async () => {
     newTerminalWrap(async (terminal, shellIntegration) => {
       const shellIntegrationSpy = spy(shellIntegration, "executeCommand");
 
@@ -68,7 +65,7 @@ suite("terminal helpers", () => {
       assert.equal(returnValue.type, "cancel");
 
       shellIntegrationSpy.restore();
-    }, "command type check");
+    }, "return type");
   });
 });
 
@@ -78,11 +75,8 @@ suite("Config", () => {
       .getConfiguration("autoTerminal")
       .get("runOpenCommandsOnStartup");
 
-    assert.ok(
-      runOpenCommandsOnStartup === true || runOpenCommandsOnStartup === false
-    );
+    assert.strictEqual(typeof runOpenCommandsOnStartup, "boolean");
 
-    // check
     const customTemplates = workspace
       .getConfiguration("autoTerminal")
       .get("customTemplates");
