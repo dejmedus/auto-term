@@ -6,7 +6,7 @@
   "bugs": {
     "url": "https://github.com/dejmedus/auto-term/issues"
   },
-  "version": "0.0.7",
+  "version": "0.0.70",
   "pricing": "Free",
   "engines": {
     "vscode": "^1.85.0"
