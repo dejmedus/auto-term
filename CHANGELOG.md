@@ -12,8 +12,8 @@
   - requires: "terminal.integrated.shellIntegration.enabled": true
 - alert on command error/failure
 - [`Auto Terminal: Add Quick Run To Terminal`](README.md#quick-run-actions-from-terminal) settings toggle. Quick run `Auto Term: Action` from the terminal menu bar
+- special commands `*alert` and `*delay`
 - setup/use walkthrough
-- special command `*alert`
 - fix: no workspace error when vscode is launched without an open repo
 
 ## 0.0.6
