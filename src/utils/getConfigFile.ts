@@ -3,11 +3,18 @@ import path from "path";
 import fs from "fs";
 
 export interface IConfigFile {
-  [key: string]: Array<{
-    tab: string;
-    commands: string[];
-    description?: string;
-  }>;
+  [key: string]: Array<
+    | {
+        name: string;
+        commands: string[];
+        description?: string;
+      }
+    | {
+        tab: string;
+        commands: string[];
+        description?: string;
+      }
+  >;
 }
 
 /**
@@ -47,4 +54,17 @@ export default function getConfigFile(
   );
 
   return configFile;
+}
+
+export function getConfigTabNames(config: IConfigFile): string[] {
+  const tabNames = new Set<string>();
+
+  for (const key in config) {
+    for (const term of config[key]) {
+      const tabName = "tab" in term ? term.tab : term.name;
+      tabNames.add(tabName);
+    }
+  }
+
+  return Array.from(tabNames);
 }
