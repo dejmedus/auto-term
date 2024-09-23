@@ -4,6 +4,8 @@
 
 Run sets of terminal commands in bulk. Quickly set up terminal tabs, run command flows, navigate directories, and more.
 
+![demo gif](https://github.com/dejmedus/gifs/blob/main/auto-term-demo.gif?raw=true)
+
 ### Usage
 
 1. Open your workspace in VS Code.
