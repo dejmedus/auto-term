@@ -7,7 +7,6 @@ export function showUsageGuideDisposable(context: vscode.ExtensionContext) {
     const configFile = getConfigFile();
 
     if (!configFile) {
-      vscode.window.showErrorMessage("Configuration file not found.");
       return;
     }
 

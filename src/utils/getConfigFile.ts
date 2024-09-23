@@ -43,9 +43,8 @@ export default function getConfigFile(
   if (!fs.existsSync(terminalConfig)) {
     !allowMissingConfig &&
       vscode.window.showErrorMessage(
-        "terminal.config.json not found in the workspace."
+        `No terminal configuration file found. Please create a terminal.config.json file in the root of your project.`
       );
-
     return;
   }
 

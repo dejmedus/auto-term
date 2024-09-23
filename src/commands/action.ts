@@ -19,9 +19,6 @@ let actionDisposable = vscode.commands.registerCommand(
     const configFile = getConfigFile();
 
     if (!configFile) {
-      vscode.window.showErrorMessage(
-        `No configuration file found. Please create a terminal.config.json file in the root of your project.`
-      );
       return;
     }
     const actionOptions = Object.keys(configFile);
