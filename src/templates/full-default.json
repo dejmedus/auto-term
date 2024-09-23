@@ -33,12 +33,5 @@
       "commands": ["*CLOSE"],
       "description": "Close the tab"
     }
-  ],
-  "reminder": [
-    {
-      "tab": "reminder",
-      "commands": ["echo 'you're doing great'"],
-      "description": "Reminder"
-    }
   ]
 }

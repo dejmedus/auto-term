@@ -2,10 +2,19 @@
 
 ## Upcoming
 
-- special commands `*alert`, `*echo`, and `*open_file`
-- refactor special command chaining
 - yaml config files
 - templates for common workflows
+
+## 0.0.7
+
+- better command chaining
+  - fixes: long running commands executing out of order
+  - requires: "terminal.integrated.shellIntegration.enabled": true
+- alert on command error/failure
+- [`Auto Terminal: Add Quick Run To Terminal`](README.md#quick-run-actions-from-terminal) settings toggle. Quick run `Auto Term: Action` from the terminal menu bar
+- special commands `*alert` and `*delay`
+- setup/use walkthrough
+- fix: no workspace error when vscode is launched without an open repo
 
 ## 0.0.6
 
