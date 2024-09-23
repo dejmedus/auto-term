@@ -55,6 +55,7 @@ export async function runCommandLoop(
           window.showErrorMessage(
             `Command ${command} failed in ${terminal.name} terminal`
           );
+          terminal.show();
           reject(commandResult.error);
         }
 
@@ -76,6 +77,7 @@ export async function runCommandLoop(
             window.showErrorMessage(
               `Command ${command} failed in ${terminal.name} terminal`
             );
+            terminal.show();
             reject(new Error(`Execution is undefined for command ${command}`));
           }
 
@@ -92,6 +94,7 @@ export async function runCommandLoop(
                   window.showErrorMessage(
                     `Command ${command} failed in ${terminal.name} terminal`
                   );
+                  terminal.show();
                   reject(
                     new Error(`Command ${command} failed with exit code 1`)
                   );
