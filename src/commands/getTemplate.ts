@@ -51,7 +51,6 @@ let getTemplateDisposable = vscode.commands.registerCommand(
           "terminal.config.json"
         );
 
-        // console.log("templateConfigPath", templateConfigPath);
         fs.writeFileSync(templateConfigPath, templateFile);
       }
     });

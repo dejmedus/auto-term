@@ -37,12 +37,6 @@ export async function runCommandLoop(
   terminal: Terminal,
   commands: string[]
 ): Promise<void> {
-  if (!terminal.shellIntegration) {
-    console.error("SOMETHING HAS GONE WRONG");
-    noShellIntegrationDialog();
-    return;
-  }
-
   try {
     for (const command of commands) {
       await new Promise<void>(async (resolve, reject) => {
@@ -72,7 +66,6 @@ export async function runCommandLoop(
         if (commandResult.type === "execution") {
           const execution = commandResult.execution;
 
-          // if execution is undefined, the command failed, break out of loop
           if (!execution) {
             window.showErrorMessage(
               `Command ${command} failed in ${terminal.name} terminal`
@@ -88,8 +81,7 @@ export async function runCommandLoop(
                 event.terminal === terminal
               ) {
                 executionListener.dispose();
-                // console.log(`Command ${command} exit code ${event.exitCode}`);
-                // should undefined be treated as error?
+
                 if (event.exitCode === 1) {
                   window.showErrorMessage(
                     `Command ${command} failed in ${terminal.name} terminal`
