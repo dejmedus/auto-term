@@ -56,7 +56,7 @@ suite("terminal helpers", () => {
     newTerminalWrap(async (terminal, shellIntegration) => {
       const shellIntegrationSpy = spy(shellIntegration, "executeCommand");
 
-      let returnValue = await runCommand(terminal, "*echo 'custom echo'");
+      let returnValue = await runCommand(terminal, "*echo custom echo");
       assert.equal(returnValue.type, "execution");
 
       returnValue = await runCommand(terminal, "*alert");
