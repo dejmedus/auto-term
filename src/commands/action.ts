@@ -1,13 +1,13 @@
-import * as vscode from "vscode";
+import { commands, window, workspace } from "vscode";
 
 import runAction from "../utils/runAction";
 import getConfigFile from "../utils/getConfigFile";
 import { noShellIntegrationDialog } from "../utils/terminalHelpers";
 
-let actionDisposable = vscode.commands.registerCommand(
+let actionDisposable = commands.registerCommand(
   "extension.action",
   async () => {
-    const shellIntegrationEnabled: boolean | undefined = await vscode.workspace
+    const shellIntegrationEnabled: boolean | undefined = await workspace
       .getConfiguration("terminal.integrated.shellIntegration")
       .get("enabled");
 
@@ -23,7 +23,7 @@ let actionDisposable = vscode.commands.registerCommand(
     }
     const actionOptions = Object.keys(configFile);
 
-    vscode.window.showQuickPick(actionOptions).then(async (selectedAction) => {
+    window.showQuickPick(actionOptions).then(async (selectedAction) => {
       if (selectedAction) {
         await runAction(selectedAction, configFile);
       }
