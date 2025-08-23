@@ -7,6 +7,7 @@ export type TerminalConfig =
       color?: string;
       icon?: string;
       shell?: string;
+      hidden?: boolean;
     }
   | {
       name: string;
@@ -16,6 +17,7 @@ export type TerminalConfig =
       color?: string;
       icon?: string;
       shell?: string;
+      hidden?: boolean;
     };
 
 export type ActionConfig = TerminalConfig[];

@@ -39,7 +39,7 @@ export default async function runAction(
       );
 
       existingTerminal
-        ? await runInCurrentTerminal(existingTerminal, terminalConfig.commands)
+        ? await runInCurrentTerminal(existingTerminal, terminalConfig)
         : await runInNewTerminal(terminalName, terminalConfig);
     }
   } catch (error) {

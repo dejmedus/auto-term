@@ -7,6 +7,7 @@ import { newTerminalWrap } from "./newTerminalWrap";
 
 import { runInCurrentTerminal, runCommand } from "../utils/terminalHelpers";
 import { getTemplateFile } from "../commands/getTemplate";
+import { TerminalConfig } from "../lib/types";
 
 suite("terminal helpers", () => {
   test(
@@ -32,13 +33,16 @@ suite("terminal helpers", () => {
       await runCommand(terminal, "echo 'hi'");
       sinonAssert.calledWith(shellIntegrationSpy, "echo 'hi'");
 
-      const commands = [
-        "echo 'woww'",
-        "*delay 5000",
-        "npm init -y",
-        "echo 'POTATO'",
-      ];
-      await runInCurrentTerminal(terminal, commands);
+      const terminalConfig: TerminalConfig = {
+        name: "test",
+        commands: [
+          "echo 'woww'",
+          "*delay 5000",
+          "npm init -y",
+          "echo 'POTATO'",
+        ],
+      };
+      await runInCurrentTerminal(terminal, terminalConfig);
 
       sinonAssert.calledWith(shellIntegrationSpy, "echo 'woww'");
       sinonAssert.calledWith(shellIntegrationSpy, "npm init -y");

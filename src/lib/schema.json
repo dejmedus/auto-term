@@ -1,4 +1,5 @@
 {
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "description": "Action name.",
   "propertyNames": {
@@ -25,6 +26,74 @@
               },
               "description": "Commands to be executed in this terminal tab."
             },
+            "icon": {
+              "type": "string",
+              "enum": [
+                "terminal",
+                "snake",
+                "python",
+                "ruby",
+                "git-merge",
+                "beaker",
+                "browser",
+                "watch",
+                "debug",
+                "bug",
+                "check",
+                "trash",
+                "gear",
+                "sync",
+                "cloud",
+                "flame",
+                "zap",
+                "error",
+                "play",
+                "stop",
+                "folder",
+                "file",
+                "search",
+                "info",
+                "bell",
+                "lightbulb"
+              ],
+              "description": "Optional. Tab icon."
+            },
+            "color": {
+              "type": "string",
+              "enum": [
+                "Black",
+                "Red",
+                "Green",
+                "Yellow",
+                "Blue",
+                "Magenta",
+                "Cyan",
+                "White",
+                "BrightBlack",
+                "BrightRed",
+                "BrightGreen",
+                "BrightYellow",
+                "BrightBlue",
+                "BrightMagenta",
+                "BrightCyan",
+                "BrightWhite"
+              ],
+              "description": "Optional. Tab icon color."
+            },
+            "shell": {
+              "type": "string",
+              "enum": ["bash", "zsh", "fish"],
+              "description": "Optional. Shell type."
+            },
+            "hidden": {
+              "type": "boolean",
+              "description": "Default false. Do not display tab."
+            },
+            "header": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Optional. Message to display on tab creation."
+            },
             "description": {
               "type": "string",
               "description": "Optional. Description of the commands"
@@ -47,6 +116,74 @@
                 "minLength": 1
               },
               "description": "Commands to be executed in this terminal tab."
+            },
+            "icon": {
+              "type": "string",
+              "enum": [
+                "terminal",
+                "snake",
+                "python",
+                "ruby",
+                "git-merge",
+                "beaker",
+                "browser",
+                "watch",
+                "debug",
+                "bug",
+                "check",
+                "trash",
+                "gear",
+                "sync",
+                "cloud",
+                "flame",
+                "zap",
+                "error",
+                "play",
+                "stop",
+                "folder",
+                "file",
+                "search",
+                "info",
+                "bell",
+                "lightbulb"
+              ],
+              "description": "Optional. Tab icon."
+            },
+            "color": {
+              "type": "string",
+              "enum": [
+                "Black",
+                "Red",
+                "Green",
+                "Yellow",
+                "Blue",
+                "Magenta",
+                "Cyan",
+                "White",
+                "BrightBlack",
+                "BrightRed",
+                "BrightGreen",
+                "BrightYellow",
+                "BrightBlue",
+                "BrightMagenta",
+                "BrightCyan",
+                "BrightWhite"
+              ],
+              "description": "Optional. Tab icon color."
+            },
+            "shell": {
+              "type": "string",
+              "enum": ["bash", "zsh", "fish"],
+              "description": "Optional. Shell type."
+            },
+            "hidden": {
+              "type": "boolean",
+              "description": "Default false. Do not display tab."
+            },
+            "header": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Optional. Message to display on tab creation."
             },
             "description": {
               "type": "string",
