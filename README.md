@@ -2,7 +2,7 @@
   <h2>Auto Terminal</h2>
 </div>
 
-> There is a known [bug effecting VSCode shell integration when using zsh on MacOS](https://github.com/microsoft/vscode/issues/248799). To work around it set `shell` to `bash` in `terminal.config.json`
+> There is a known [bug effecting VSCode shell integration when using zsh on MacOS](https://github.com/microsoft/vscode/issues/248799). To work around it set tab `shell` to `bash` in `terminal.config.json`
 
 Run sets of terminal commands in bulk. Quickly set up terminal tabs, run command flows, navigate directories, and more
 
@@ -11,8 +11,8 @@ Run sets of terminal commands in bulk. Quickly set up terminal tabs, run command
 ### Usage
 
 1. Open your workspace in VS Code.
-2. Create a [`terminal.config.json`](#terminal-configuration) file in the root of your workspace.
-3. Open the command palette `cmd + shift + p`
+2. Create a [`terminal.config.json`](#terminal-configuration) file at the root of your workspace.
+3. Open the command palette (<kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>)
 4. Type `Auto Terminal: Action` and select an action
 
 
@@ -20,10 +20,9 @@ Run sets of terminal commands in bulk. Quickly set up terminal tabs, run command
 
 Start by defining terminal configurations, either:
 
-- create a `terminal.config.json` file at the root of your workspace
-
-- select a template file:
-  - Open the command palette `cmd + shift + p`
+- Create a `terminal.config.json` file at the root of your workspace
+- Select a template file:
+  - Open the command palette (<kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>)
   - Select [`Auto Terminal: Template`](#terminal-configuration-templates)
 
 Example:
@@ -35,7 +34,9 @@ Example:
     {
       "tab": "frontend", // terminal tab name
       "commands": ["cd Frontend", "npm i", "clear", "code app/page.tsx"], // array of commands
-      "description": "Install npm packages" // optional description,
+      "header": "Frontend", // optional terminal header
+      "icon": "branch", // optional tab icon
+      "color": "pink", // optional icon color
     },
     {
       "tab": "backend",
@@ -53,11 +54,7 @@ Example:
   "open": [
     {
       "tab": "git",
-      "commands": ["git branch"],
-      "header": "A tab for git stuff",
-      "color": "BrightWhite",
-      "icon": "git-merge",
-      "shell": "bash"
+      "commands": ["git branch", "*alert remember to create a branch],
     },
   ],
 }
@@ -67,12 +64,12 @@ Example:
 
 #### Add a template `terminal.config.json` file to your workspace:
 
-1. Open the command palette. `cmd + shift + p`
+1. Open the command palette
 2. Type `Auto Terminal: Template` and select a template option
 
 #### Add reusable custom templates:
 
-1. Open your User settings `cmd + ,`
+1. Open your User settings (<kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+ <kbd>,</kbd>)
 2. Search for `Auto Terminal: Custom Templates`
 3. Add a new key-value pair to the customTemplates object, where the key is the template name and the value is the template itself
 
@@ -83,14 +80,12 @@ Example:
         {
           "tab": "",
           "commands": [],
-          "description": ""
         }
       ],
       "actionName2": [
         {
           "tab": "",
           "commands": [],
-          "description": ""
         }
       ]
     }
@@ -103,7 +98,7 @@ Example:
 
 #### Auto Run Commands on Startup
 
-When the `Auto Terminal: Run Open Commands On Startup` setting is enabled any commands specified inside the "open" action in your `terminal.config.json` file will be automatically executed when you open your workspace
+When the `Auto Terminal: Run Open Commands On Startup` setting is enabled any commands specified inside the **open** action in your `terminal.config.json` file will be automatically executed when you open your workspace
 
 #### Quick Run Actions From Terminal
 
@@ -111,7 +106,7 @@ When the `Auto Terminal: Add Quick Run To Terminal` setting is enabled a button 
 
 #### To enable:
 
-1. Open your workspace settings (Code/File > Settings/Preferences > Settings)
+1. Open your workspace settings (`Code`/`File` > `Preferences` > `Settings`)
 2. Search for `Auto Terminal: Run Open Commands On Startup` or `Add Quick Run To Terminal`
 3. Check the box to enable the setting
 

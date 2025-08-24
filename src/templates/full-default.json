@@ -1,35 +1,35 @@
 {
   "setup": [
     {
-      "tab": "tab",
-      "commands": ["cd folder", "npm install", "clear"],
+      "tab": "main",
+      "commands": ["cd folder", "clear"],
       "description": "Setup a new tab"
     }
   ],
   "open": [
     {
-      "tab": "tab",
+      "tab": "main",
       "commands": ["cd folder", "clear"],
       "description": "Open a new tab"
     }
   ],
   "start": [
     {
-      "tab": "tab",
-      "commands": ["npm start"],
-      "description": "Start the tab"
+      "tab": "main",
+      "commands": ["*ECHO start"],
+      "description": "Start"
     }
   ],
   "stop": [
     {
-      "tab": "tab",
+      "tab": "main",
       "commands": ["*STOP"],
-      "description": "Stop the tab"
+      "description": "Stop"
     }
   ],
   "close": [
     {
-      "tab": "tab",
+      "tab": "main",
       "commands": ["*CLOSE"],
       "description": "Close the tab"
     }
