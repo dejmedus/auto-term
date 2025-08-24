@@ -1,4 +1,6 @@
-import { window, Terminal, TerminalShellExecution } from "vscode";
+import * as fs from "fs";
+import * as path from "path";
+import { window, workspace, Terminal, TerminalShellExecution } from "vscode";
 
 export type CommandResult =
   | { type: "execution"; execution: TerminalShellExecution | undefined }
@@ -27,6 +29,8 @@ const customCommands: CustomCommands = {
   "*alert": alertMessage,
   "*echo": echo,
   "*delay": handleDelay,
+  "*cd": changeDirectory,
+  "*focus": focus,
 };
 
 async function handleStop(
@@ -80,6 +84,37 @@ async function handleDelay(
 ): Promise<CommandResult> {
   const seconds = Number(args[0]);
   await delay(seconds);
+  return { type: "continue" };
+}
+
+async function changeDirectory(
+  terminal: Terminal,
+  args: string[],
+  executeCommand: ExecuteCommand
+): Promise<CommandResult> {
+  const targetPath = args[0];
+
+  const workspacePath = workspace.workspaceFolders?.[0]?.uri.fsPath || "";
+  const resolvedPath = path.isAbsolute(targetPath)
+    ? targetPath
+    : path.join(workspacePath, targetPath);
+  const cwdUri = terminal.shellIntegration?.cwd;
+  const currentDir = cwdUri ? cwdUri.fsPath : workspacePath;
+
+  if (
+    path.resolve(currentDir) === path.resolve(resolvedPath) ||
+    !fs.existsSync(resolvedPath) ||
+    !fs.statSync(resolvedPath).isDirectory()
+  ) {
+    return { type: "continue" };
+  }
+
+  const execution = executeCommand(`cd ${targetPath}`, terminal);
+  return { type: "execution", execution };
+}
+
+async function focus(terminal: Terminal): Promise<CommandResult> {
+  terminal.show();
   return { type: "continue" };
 }
 

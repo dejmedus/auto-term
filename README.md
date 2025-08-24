@@ -135,15 +135,15 @@ When the `Auto Terminal: Add Quick Run To Terminal` setting is enabled a button 
 
 Special commands that can be used to perform actions beyond standard command input. These always begin with "\*".
 
-| Command | Description               | Usage                                        |
-| ------- | ------------------------- | -------------------------------------------- |
-| \*stop  | Stops a running process.  | `"commands": ["*stop"]`                      |
-| \*close | Closes the terminal.      | `"commands": ["*close"]`                     |
-| \*delay | Delays next command.      | `"commands": ["*delay 1000"]`                |
-| \*alert | Creates a notification.\* | `"commands": ["*alert remember to open PR"]` |
-
-<!-- | \*cd    | Change dir if not already in it | `"commands": ["*cd path/to/directory"]`      | -->
-<!-- | \*echo  | Send text to terminal.    | `"commands": ["*echo remember to pull changes"]` | -->
+| Command | Description                                                                             | Usage                                            |
+| ------- | --------------------------------------------------------------------------------------- | ------------------------------------------------ |
+| \*stop  | Stops a running process                                                                 | `"commands": ["*stop"]`                          |
+| \*close | Closes the terminal                                                                     | `"commands": ["*close"]`                         |
+| \*focus | Focus on the Terminal                                                                   | `"commands": ["*focus"]`                         |
+| \*delay | Delays next command                                                                     | `"commands": ["*delay 1000"]`                    |
+| \*alert | Creates a notification                                                                  | `"commands": ["*alert remember to open PR"]`     |
+| \*cd    | Change directory if not already in it. Fails gracefully if the directory does not exist | `"commands": ["*cd path/to/directory"]`          |
+| \*echo  | Send text to terminal.                                                                  | `"commands": ["*echo remember to pull changes"]` |
 
 
 _\* there can only be 3 alert windows open at a time_
