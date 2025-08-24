@@ -1,9 +1,19 @@
 # Change Log
 
-## Upcoming
+## 0.0.8
 
-- yaml config files
-- templates for common workflows
+- extension created terminals are no longer persisted on reload
+- new commands:
+  - `*cd`: move if not already inside and the dir exists
+  - `*focus`: focus on the terminal tab
+- new config options:
+  - `icon`: terminal tab icon
+  - `color`: terminal tab icon color
+  - `hidden`: run commands in the background
+  - `header`: display message on terminal creation
+  - `shell` : `zsh` or `bash`
+- action dropdown is now sorted by recently used
+- better `terminal.config.json` completion 
 
 ## 0.0.7
 
@@ -12,7 +22,7 @@
   - requires: "terminal.integrated.shellIntegration.enabled": true
 - alert on command error/failure
 - [`Auto Terminal: Add Quick Run To Terminal`](README.md#quick-run-actions-from-terminal) settings toggle. Quick run `Auto Term: Action` from the terminal menu bar
-- special commands `*alert` and `*delay`
+- helper commands `*alert` and `*delay`
 - setup/use walkthrough
 - fix: no workspace error when vscode is launched without an open repo
 
@@ -26,10 +36,10 @@
 
 ## 0.0.5
 
-- Bug fixes:
-  - New terminals support special commands (*CLOSE/*STOP)
-  - Special commands no longer require capitalization
+- bug fixes:
+  - new terminals support helper commands (*CLOSE/*STOP)
+  - helper commands no longer require capitalization
 
 ## 0.0.4
 
-- Create `terminal.config.json` file from template with `Auto Term: Template`
+- create `terminal.config.json` file from template with `Auto Term: Template`
