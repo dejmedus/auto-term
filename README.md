@@ -2,7 +2,9 @@
   <h2>Auto Terminal</h2>
 </div>
 
-Run sets of terminal commands in bulk. Quickly set up terminal tabs, run command flows, navigate directories, and more.
+> There is a known [bug effecting VSCode shell integration when using zsh on MacOS](https://github.com/microsoft/vscode/issues/248799). To work around it set `shell` to `bash` in `terminal.config.json`
+
+Run sets of terminal commands in bulk. Quickly set up terminal tabs, run command flows, navigate directories, and more
 
 ![demo gif](https://github.com/dejmedus/gifs/blob/main/auto-term-demo.gif?raw=true)
 
@@ -11,7 +13,7 @@ Run sets of terminal commands in bulk. Quickly set up terminal tabs, run command
 1. Open your workspace in VS Code.
 2. Create a [`terminal.config.json`](#terminal-configuration) file in the root of your workspace.
 3. Open the command palette `cmd + shift + p`
-4. Type `Auto Terminal: Action` and select an action.
+4. Type `Auto Terminal: Action` and select an action
 
 
 ### Terminal Configuration File
@@ -26,14 +28,14 @@ Start by defining terminal configurations, either:
 
 Example:
 
-```json
+```
 {
   // action name
   "setup": [
     {
       "tab": "frontend", // terminal tab name
       "commands": ["cd Frontend", "npm i", "clear", "code app/page.tsx"], // array of commands
-      "description": "Install npm packages" // optional description
+      "description": "Install npm packages" // optional description,
     },
     {
       "tab": "backend",
@@ -46,36 +48,18 @@ Example:
       "description": "Install requirements.txt"
     }
   ],
-  // If Auto Terminal: Run Open Commands On Startup setting is true, "open" commands will run on workspace launch
+  // If `Run Open Commands On Startup` is enabled, 
+  // open action will run on workspace launch
   "open": [
     {
       "tab": "git",
       "commands": ["git branch"],
-      "description": "Display the current branch"
+      "header": "A tab for git stuff",
+      "color": "BrightWhite",
+      "icon": "git-merge",
+      "shell": "bash"
     },
-    {
-      "tab": "frontend",
-      "commands": ["cd Frontend"],
-      "description": "Open a terminal for frontend"
-    },
-    {
-      "tab": "backend",
-      "commands": ["cd Backend", "source venv/bin/activate"],
-      "description": "Open a terminal for backend"
-    }
   ],
-  "start": [
-    {
-      "tab": "frontend",
-      "commands": ["clear", "npm run dev"],
-      "description": "Run the frontend"
-    },
-    {
-      "tab": "backend",
-      "commands": ["clear", "python manage.py runserver"],
-      "description": "Run the backend"
-    }
-  ]
 }
 ```
 
@@ -84,13 +68,13 @@ Example:
 #### Add a template `terminal.config.json` file to your workspace:
 
 1. Open the command palette. `cmd + shift + p`
-2. Type `Auto Terminal: Template` and select a template option.
+2. Type `Auto Terminal: Template` and select a template option
 
-#### Add re-usable custom templates:
+#### Add reusable custom templates:
 
 1. Open your User settings `cmd + ,`
 2. Search for `Auto Terminal: Custom Templates`
-3. Add a new key-value pair to the customTemplates object, where the key is the template name and the value is the template itself.
+3. Add a new key-value pair to the customTemplates object, where the key is the template name and the value is the template itself
 
 ```json
 "autoTerminal.customTemplates": {
@@ -119,21 +103,21 @@ Example:
 
 #### Auto Run Commands on Startup
 
-When the `Auto Terminal: Run Open Commands On Startup` setting is enabled any commands specified inside the "open" action in your `terminal.config.json` file will be automatically executed when you open your workspace.
+When the `Auto Terminal: Run Open Commands On Startup` setting is enabled any commands specified inside the "open" action in your `terminal.config.json` file will be automatically executed when you open your workspace
 
 #### Quick Run Actions From Terminal
 
-When the `Auto Terminal: Add Quick Run To Terminal` setting is enabled a button to quickly run `Auto Term: Action` will be added to the terminal menu bar.
+When the `Auto Terminal: Add Quick Run To Terminal` setting is enabled a button to quickly run `Auto Term: Action` will be added to the terminal menu bar
 
 #### To enable:
 
-1. Open your workspace settings (Code/File > Settings/Preferences > Settings).
-2. Search for `Auto Terminal: Run Open Commands On Startup` or `Add Quick Run To Terminal`.
-3. Check the box to enable the setting.
+1. Open your workspace settings (Code/File > Settings/Preferences > Settings)
+2. Search for `Auto Terminal: Run Open Commands On Startup` or `Add Quick Run To Terminal`
+3. Check the box to enable the setting
 
-### Special Commands
+### Helper Commands
 
-Special commands that can be used to perform actions beyond standard command input. These always begin with "\*".
+Helper commands that can be used to perform actions beyond standard command input. These always begin with `*`
 
 | Command | Description                                                                             | Usage                                            |
 | ------- | --------------------------------------------------------------------------------------- | ------------------------------------------------ |
@@ -147,7 +131,3 @@ Special commands that can be used to perform actions beyond standard command inp
 
 
 _\* there can only be 3 alert windows open at a time_
-
-#### Tips:
-
-- If an existing terminal tab can't be found a new one will be created.
