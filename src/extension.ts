@@ -7,7 +7,10 @@ import actionDisposable from "./commands/action";
 import showUsageGuideDisposable from "./commands/showUsageGuide";
 import getTemplateDisposable from "./commands/getTemplate";
 
+export let extensionContext: ExtensionContext;
+
 async function activate(context: ExtensionContext) {
+  extensionContext = context;
   const configFile = getConfigFile(true, true);
 
   if (!configFile) {
