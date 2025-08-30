@@ -26,8 +26,9 @@ export async function runInNewTerminal(
 ) {
   const { header, color, icon, commands, shell, hidden } = terminalConfig;
 
-  const terminalColor = `terminal.ansi${color}`;
-  const terminalIcon = icon ?? "terminal";
+  const ansiColor = colorMap[color as string];
+  const terminalColor = `terminal.ansi${ansiColor}`;
+  const terminalIcon = iconMap[icon as string] ?? "terminal";
 
   const terminalOptions: TerminalOptions = {
     name: terminalName,
@@ -146,7 +147,7 @@ export async function runCommand(
     if (commandTypeLowerCase in customCommands) {
       if (!customCommands[commandTypeLowerCase]) {
         window.showErrorMessage(
-          `Command ${commandType} not found in special commands.`
+          `Command ${commandType} not found in helper commands.`
         );
         return { type: "error", error: new Error("Custom command not found") };
       }
@@ -167,6 +168,71 @@ export async function runCommand(
     return { type: "error", error: err };
   }
 }
+
+const colorMap: Record<string, string> = {
+  black: "Black",
+  red: "Red",
+  green: "Green",
+  yellow: "Yellow",
+  blue: "Blue",
+  purple: "Magenta",
+  cyan: "Cyan",
+  white: "White",
+  gray: "BrightBlack",
+  pink: "BrightMagenta",
+  "light blue": "BrightBlue",
+  "light green": "BrightGreen",
+  "light yellow": "BrightYellow",
+  "light cyan": "BrightCyan",
+  "light red": "BrightRed",
+  opaque: "BrightWhite",
+};
+
+const iconMap: Record<string, string> = {
+  bash: "terminal-bash",
+  beaker: "beaker",
+  bell: "bell",
+  binary: "file-binary",
+  branch: "git-branch",
+  browser: "browser",
+  bug: "bug",
+  check: "check",
+  cloud: "cloud",
+  code: "file-code",
+  database: "database",
+  debug: "debug",
+  error: "error",
+  extensions: "extensions",
+  file: "file",
+  fix: "lightbulb-autofix",
+  flame: "flame",
+  folder: "folder",
+  gear: "gear",
+  git: "git-merge",
+  history: "history",
+  info: "info",
+  lightbulb: "lightbulb",
+  lightning: "zap",
+  open: "folder-opened",
+  package: "package",
+  play: "play",
+  powershell: "powershell",
+  "pull request": "git-pull-request",
+  python: "snake",
+  question: "question",
+  ruby: "ruby",
+  search: "search",
+  server: "server",
+  settings: "settings-gear",
+  sparkle: "sparkle",
+  stop: "stop",
+  symlink: "file-symlink-file",
+  sync: "sync",
+  terminal: "terminal",
+  trash: "trash",
+  watch: "watch",
+  warning: "warning",
+};
 
 export function noShellIntegrationDialog() {
   window
