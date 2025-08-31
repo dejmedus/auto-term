@@ -1,19 +1,19 @@
-import * as vscode from "vscode";
+import { window, commands, ViewColumn, ExtensionContext } from "vscode";
 
 import getConfigFile from "../utils/getConfigFile";
 
-export function showUsageGuideDisposable(context: vscode.ExtensionContext) {
-  return vscode.commands.registerCommand("extension.showUsageGuide", () => {
+export function showUsageGuideDisposable(context: ExtensionContext) {
+  return commands.registerCommand("extension.showUsageGuide", () => {
     const configFile = getConfigFile();
 
     if (!configFile) {
       return;
     }
 
-    const panel = vscode.window.createWebviewPanel(
+    const panel = window.createWebviewPanel(
       "usageGuide",
       "Usage Guide",
-      vscode.ViewColumn.One,
+      ViewColumn.One,
       {}
     );
 

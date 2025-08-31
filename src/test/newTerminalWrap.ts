@@ -12,6 +12,7 @@ export function newTerminalWrap(
 
     const newTerminal = window.createTerminal({
       name: terminalName,
+      shellPath: "bash",
     });
 
     newTerminal.show();

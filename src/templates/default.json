@@ -3,7 +3,9 @@
     {
       "tab": "",
       "commands": [],
-      "description": ""
+      "header": "",
+      "icon": "",
+      "color": ""
     }
   ]
 }

@@ -1,58 +1,50 @@
 import path from "path";
 import fs from "fs";
-import * as vscode from "vscode";
+import { window, commands, workspace } from "vscode";
 
-let getTemplateDisposable = vscode.commands.registerCommand(
+let getTemplateDisposable = commands.registerCommand(
   "extension.getTemplate",
   () => {
-    // custom templates from settings
-    const config = vscode.workspace.getConfiguration("autoTerminal");
-    const customTemplates = config.get("customTemplates") || {};
+    const config = workspace.getConfiguration("autoTerminal");
+    const customTemplates: { [key: string]: {} } =
+      config.get("customTemplates") || {};
     const customTemplateNames = Object.keys(customTemplates);
 
-    // default templates from the extension
     const templatesDir = path.join(__dirname, "../templates");
-    const defaultTemplates = fs.readdirSync(templatesDir);
+    const defaultTemplateNames = fs.readdirSync(templatesDir);
 
-    const templateOptions = [...defaultTemplates, ...customTemplateNames].map(
-      (file) => {
-        return file.replace(".json", "");
+    const templateOptions = [
+      ...defaultTemplateNames,
+      ...customTemplateNames,
+    ].map((templateName) => {
+      return templateName.replace(".json", "");
+    });
+
+    window.showQuickPick(templateOptions).then((selectedOption) => {
+      if (!selectedOption) return;
+
+      const templateFile = customTemplateNames.includes(selectedOption)
+        ? JSON.stringify(customTemplates[selectedOption], null, 2)
+        : getTemplateFile(selectedOption + ".json");
+
+      if (!templateFile) {
+        window.showErrorMessage("Template file not found.");
+        return;
       }
-    );
 
-    vscode.window.showQuickPick(templateOptions).then((selectedOption) => {
-      if (selectedOption) {
-        selectedOption += ".json";
-
-        const templateFile: string = customTemplateNames.includes(
-          selectedOption
-        )
-          ? JSON.stringify(
-              customTemplates[selectedOption as keyof typeof customTemplates],
-              null,
-              2
-            )
-          : getTemplateFile(selectedOption);
-
-        if (!templateFile) {
-          vscode.window.showErrorMessage("Template file not found.");
-          return;
-        }
-
-        if (vscode.workspace.workspaceFolders === undefined) {
-          vscode.window.showErrorMessage("No workspace found");
-          return;
-        }
-
-        const workspacePath = vscode.workspace.workspaceFolders[0].uri.fsPath;
-
-        const templateConfigPath = path.join(
-          workspacePath,
-          "terminal.config.json"
-        );
-
-        fs.writeFileSync(templateConfigPath, templateFile);
+      if (workspace.workspaceFolders === undefined) {
+        window.showErrorMessage("No workspace found");
+        return;
       }
+
+      const workspacePath = workspace.workspaceFolders[0].uri.fsPath;
+
+      const templateConfigPath = path.join(
+        workspacePath,
+        "terminal.config.json"
+      );
+
+      fs.writeFileSync(templateConfigPath, templateFile);
     });
   }
 );
@@ -69,7 +61,7 @@ export function getTemplateFile(templateName: string): string {
   const templateFilePath = path.join(templateDir, templateName);
 
   if (!fs.existsSync(templateFilePath)) {
-    throw new Error(`Template file '${templateName}' not found.`);
+    window.showErrorMessage(`Template file '${templateName}' not found.`);
   }
 
   const templateContent = fs.readFileSync(templateFilePath, "utf8");

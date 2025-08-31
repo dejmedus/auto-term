@@ -1,12 +1,7 @@
 import { window, Terminal } from "vscode";
+
+import { Action, ActionConfig } from "../lib/types";
 import { runInNewTerminal, runInCurrentTerminal } from "./terminalHelpers";
-
-type ActionConfig = (
-  | { tab: string; description?: string; commands: string[] }
-  | { name: string; description?: string; commands: string[] }
-)[];
-
-type Action = string;
 
 /**
  * Retrieves the config file and runs the selected action.
@@ -35,7 +30,8 @@ export default async function runAction(
 
   try {
     for (const terminalConfig of actionConfig) {
-      // terminal.config.json allows for either "tab" or "name" to be used as the terminal name
+      // terminal.config.json allows for either "tab" or "name"
+      // to be used as the terminal name
       const terminalName =
         "tab" in terminalConfig ? terminalConfig.tab : terminalConfig.name;
 
@@ -44,8 +40,8 @@ export default async function runAction(
       );
 
       existingTerminal
-        ? await runInCurrentTerminal(existingTerminal, terminalConfig.commands)
-        : await runInNewTerminal(terminalName, terminalConfig.commands);
+        ? await runInCurrentTerminal(existingTerminal, terminalConfig)
+        : await runInNewTerminal(terminalName, terminalConfig);
     }
   } catch (error) {
     window.showErrorMessage(`Error reading terminal configurations: ${error}`);

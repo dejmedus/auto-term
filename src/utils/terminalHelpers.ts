@@ -1,23 +1,56 @@
-import vscode, { window, Terminal } from "vscode";
+import {
+  commands,
+  window,
+  Terminal,
+  TerminalOptions,
+  ThemeColor,
+  ThemeIcon,
+} from "vscode";
+
+import { TerminalConfig } from "../lib/types";
 import customCommands, { CommandResult } from "./customCommands";
+import { log } from "./logger";
 
 export async function runInCurrentTerminal(
   terminal: Terminal,
-  commands: string[]
+  terminalConfig: TerminalConfig
 ) {
-  terminal.show();
-  await runCommandLoop(terminal, commands);
+  const { commands, hidden } = terminalConfig;
+
+  !hidden && terminal.show();
+  await runCommandLoop(terminal, commands, hidden);
 }
 
 export async function runInNewTerminal(
   terminalName: string,
-  commands: string[]
+  terminalConfig: TerminalConfig
 ) {
-  const newTerminal = window.createTerminal({
-    name: terminalName,
-  });
+  const { header, color, icon, commands, shell, hidden } = terminalConfig;
 
-  newTerminal.show();
+  const ansiColor = colorMap[color as string];
+  const terminalColor = `terminal.ansi${ansiColor}`;
+  const terminalIcon = iconMap[icon as string] ?? "terminal";
+
+  const terminalOptions: TerminalOptions = {
+    name: terminalName,
+    iconPath: new ThemeIcon(terminalIcon),
+    isTransient: true,
+    hideFromUser: hidden ?? false,
+    shellArgs: ["-l", "-i"],
+  };
+
+  if (color) terminalOptions.color = new ThemeColor(terminalColor);
+  if (shell) terminalOptions.shellPath = shell;
+  if (header) {
+    const reset = "\x1b[0m";
+    const dim = "\x1b[2m";
+
+    terminalOptions.message = ` ${dim}${header}\n${reset}`;
+  }
+
+  log.info(`Spawning new terminal: ${terminalName}`);
+  const newTerminal = window.createTerminal(terminalOptions);
+  !hidden && newTerminal.show();
 
   await new Promise<void>((resolve) => {
     const shellIntegrationListener = window.onDidChangeTerminalShellIntegration(
@@ -25,7 +58,7 @@ export async function runInNewTerminal(
         if (terminal === newTerminal) {
           shellIntegrationListener.dispose();
 
-          await runCommandLoop(terminal, commands);
+          await runCommandLoop(terminal, commands, hidden);
           resolve();
         }
       }
@@ -35,7 +68,8 @@ export async function runInNewTerminal(
 
 export async function runCommandLoop(
   terminal: Terminal,
-  commands: string[]
+  commands: string[],
+  hidden = false
 ): Promise<void> {
   try {
     for (const command of commands) {
@@ -49,7 +83,7 @@ export async function runCommandLoop(
           window.showErrorMessage(
             `Command ${command} failed in ${terminal.name} terminal`
           );
-          terminal.show();
+          !hidden && terminal.show();
           reject(commandResult.error);
         }
 
@@ -70,7 +104,7 @@ export async function runCommandLoop(
             window.showErrorMessage(
               `Command ${command} failed in ${terminal.name} terminal`
             );
-            terminal.show();
+            !hidden && terminal.show();
             reject(new Error(`Execution is undefined for command ${command}`));
           }
 
@@ -83,10 +117,10 @@ export async function runCommandLoop(
                 executionListener.dispose();
 
                 if (event.exitCode === 1) {
-                  window.showErrorMessage(
-                    `Command ${command} failed in ${terminal.name} terminal`
-                  );
-                  terminal.show();
+                  const message = `Command ${command} failed in ${terminal.name} terminal`;
+                  window.showErrorMessage(message);
+                  log.error(message);
+                  !hidden && terminal.show();
                   reject(
                     new Error(`Command ${command} failed with exit code 1`)
                   );
@@ -115,9 +149,9 @@ export async function runCommand(
     if (commandTypeLowerCase in customCommands) {
       if (!customCommands[commandTypeLowerCase]) {
         window.showErrorMessage(
-          `Command ${commandType} not found in special commands.`
+          `Command ${commandType} not found in helper commands.`
         );
-        return { type: "error", error: new Error("Custom command not found") };
+        return { type: "error", error: new Error("Helper command not found") };
       }
 
       return await customCommands[commandTypeLowerCase](
@@ -133,11 +167,74 @@ export async function runCommand(
       };
     }
   } catch (err: any) {
-    window.showErrorMessage(`[${command}] failed in ${terminal.name} terminal`);
-
     return { type: "error", error: err };
   }
 }
+
+const colorMap: Record<string, string> = {
+  black: "Black",
+  red: "Red",
+  green: "Green",
+  yellow: "Yellow",
+  blue: "Blue",
+  purple: "Magenta",
+  cyan: "Cyan",
+  white: "White",
+  gray: "BrightBlack",
+  pink: "BrightMagenta",
+  "light blue": "BrightBlue",
+  "light green": "BrightGreen",
+  "light yellow": "BrightYellow",
+  "light cyan": "BrightCyan",
+  "light red": "BrightRed",
+  opaque: "BrightWhite",
+};
+
+const iconMap: Record<string, string> = {
+  bash: "terminal-bash",
+  beaker: "beaker",
+  bell: "bell",
+  binary: "file-binary",
+  branch: "git-branch",
+  browser: "browser",
+  bug: "bug",
+  check: "check",
+  cloud: "cloud",
+  code: "file-code",
+  database: "database",
+  debug: "debug",
+  error: "error",
+  extensions: "extensions",
+  file: "file",
+  fix: "lightbulb-autofix",
+  flame: "flame",
+  folder: "folder",
+  gear: "gear",
+  git: "git-merge",
+  history: "history",
+  info: "info",
+  lightbulb: "lightbulb",
+  lightning: "zap",
+  open: "folder-opened",
+  package: "package",
+  play: "play",
+  powershell: "powershell",
+  "pull request": "git-pull-request",
+  python: "snake",
+  question: "question",
+  ruby: "ruby",
+  search: "search",
+  server: "server",
+  settings: "settings-gear",
+  sparkle: "sparkle",
+  stop: "stop",
+  symlink: "file-symlink-file",
+  sync: "sync",
+  terminal: "terminal",
+  trash: "trash",
+  watch: "watch",
+  warning: "warning",
+};
 
 export function noShellIntegrationDialog() {
   window
@@ -154,7 +251,7 @@ export function noShellIntegrationDialog() {
     .then((selection) => {
       if (selection) {
         if (selection.title === "Open Settings") {
-          vscode.commands.executeCommand(
+          commands.executeCommand(
             "workbench.action.openSettings",
             "terminal.integrated.shellIntegration"
           );

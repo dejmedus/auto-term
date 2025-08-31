@@ -1,15 +1,20 @@
-import * as vscode from "vscode";
+import { workspace, ExtensionContext } from "vscode";
 
-import getConfigFile, { getConfigTabNames } from "./utils/getConfigFile";
+import getConfigFile, { IConfigFile } from "./utils/getConfigFile";
 import runAction from "./utils/runAction";
+import { log } from "./utils/logger";
 
 import actionDisposable from "./commands/action";
 import showUsageGuideDisposable from "./commands/showUsageGuide";
 import getTemplateDisposable from "./commands/getTemplate";
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
-async function activate(context: vscode.ExtensionContext) {
+export let extensionContext: ExtensionContext;
+
+async function activate(context: ExtensionContext) {
+  extensionContext = context;
+
+  log.info("Auto Terminal started!");
+
   const configFile = getConfigFile(true, true);
 
   if (!configFile) {
@@ -17,37 +22,31 @@ async function activate(context: vscode.ExtensionContext) {
     return;
   }
 
-  const tabNames = getConfigTabNames(configFile);
-  const terminals = vscode.window.terminals;
-  for (const terminal of terminals) {
-    if (tabNames.includes(terminal.name) && !terminal.shellIntegration) {
-      terminal.sendText(": # Auto Term");
-    }
-  }
-
+  await runOpenCommands(configFile);
   activateSubscriptions(context);
+}
 
-  const runOpenCommandsOnStartup: boolean | undefined = vscode.workspace
+async function runOpenCommands(configFile: IConfigFile) {
+  const runOpenCommandsOnStartup: boolean | undefined = workspace
     .getConfiguration("autoTerminal")
     .get("runOpenCommandsOnStartup");
 
   if (runOpenCommandsOnStartup) {
-    if (configFile.hasOwnProperty("open")) {
+    if ("open" in configFile) {
+      log.info("Running open commands");
       await runAction("open", configFile);
     }
   }
 }
 
-function activateSubscriptions(context: vscode.ExtensionContext) {
+function activateSubscriptions(context: ExtensionContext) {
   context.subscriptions.push(actionDisposable);
   context.subscriptions.push(showUsageGuideDisposable(context));
   context.subscriptions.push(getTemplateDisposable);
 }
 
-// This method is called when your extension is deactivated
 function deactivate() {}
 
-// Export the activate and deactivate functions
 module.exports = {
   activate,
   deactivate,

@@ -31,7 +31,8 @@
         "code CHANGELOG.md",
         "code package.json",
         "npm run test",
-        "*echo vsix: vsce package | publish: vsce publish"
+        "*echo vsix: vsce package | publish: vsce publish",
+        "*echo package number must be 0.0.00"
       ],
       "description": "upgrade"
     }

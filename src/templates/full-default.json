@@ -1,37 +1,42 @@
 {
   "setup": [
     {
-      "tab": "tab",
-      "commands": ["cd folder", "npm install", "clear"],
-      "description": "Setup a new tab"
+      "tab": "frontend",
+      "commands": ["*echo install stuff"],
+      "icon": "browser"
     }
   ],
   "open": [
     {
-      "tab": "tab",
-      "commands": ["cd folder", "clear"],
-      "description": "Open a new tab"
+      "tab": "git",
+      "commands": ["git branch"],
+      "icon": "git"
+    },
+    {
+      "tab": "frontend",
+      "commands": ["*echo start the app"],
+      "icon": "browser"
+    },
+    {
+      "tab": "test",
+      "commands": ["*echo test command"],
+      "icon": "beaker"
     }
   ],
   "start": [
     {
-      "tab": "tab",
-      "commands": ["npm start"],
-      "description": "Start the tab"
-    }
-  ],
-  "stop": [
-    {
-      "tab": "tab",
-      "commands": ["*STOP"],
-      "description": "Stop the tab"
+      "tab": "frontend",
+      "commands": ["*stop", "clear", "*echo restart the app"]
     }
   ],
   "close": [
     {
-      "tab": "tab",
-      "commands": ["*CLOSE"],
-      "description": "Close the tab"
+      "tab": "git",
+      "commands": ["*close"]
+    },
+    {
+      "tab": "frontend",
+      "commands": ["*stop", "*close"]
     }
   ]
 }

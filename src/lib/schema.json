@@ -1,4 +1,5 @@
 {
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "description": "Action name.",
   "propertyNames": {
@@ -21,9 +22,138 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "minLength": 1
+                "minLength": 1,
+                "description": "Command to execute. Use *command for helper commands.",
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^\\*alert",
+                    "description": "Show a notification. Usage: *alert your alert message",
+                    "examples": ["*alert"]
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^\\*cd",
+                    "description": "Change directory. Fails silently. Usage: *cd folder",
+                    "examples": ["*cd"]
+                  },
+                  {
+                    "const": "*close",
+                    "description": "Close this terminal tab"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^\\*delay",
+                    "description": "Wait for milliseconds. Usage: *delay 5000",
+                    "examples": ["*delay"]
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^\\*echo",
+                    "description": "Echo a message to the terminal. Usage: *echo your message here",
+                    "examples": ["*echo"]
+                  },
+                  {
+                    "const": "*focus",
+                    "description": "Focus on the terminal"
+                  },
+                  {
+                    "const": "*stop",
+                    "description": "Stop the currently running process"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^(?!\\*).*$",
+                    "description": "Shell command"
+                  }
+                ]
               },
               "description": "Commands to be executed in this terminal tab."
+            },
+            "icon": {
+              "type": "string",
+              "enum": [
+                "bash",
+                "beaker",
+                "bell",
+                "binary",
+                "branch",
+                "browser",
+                "bug",
+                "check",
+                "cloud",
+                "code",
+                "database",
+                "debug",
+                "error",
+                "extensions",
+                "file",
+                "fix",
+                "flame",
+                "folder",
+                "gear",
+                "git",
+                "history",
+                "info",
+                "lightbulb",
+                "lightning",
+                "open",
+                "package",
+                "play",
+                "powershell",
+                "pull request",
+                "python",
+                "question",
+                "ruby",
+                "search",
+                "server",
+                "settings",
+                "sparkle",
+                "stop",
+                "symlink",
+                "sync",
+                "terminal",
+                "trash",
+                "watch",
+                "warning"
+              ],
+              "description": "Optional. Tab icon."
+            },
+            "color": {
+              "type": "string",
+              "enum": [
+                "black",
+                "red",
+                "green",
+                "yellow",
+                "blue",
+                "purple",
+                "cyan",
+                "white",
+                "gray",
+                "pink",
+                "light blue",
+                "light green",
+                "light yellow",
+                "light cyan",
+                "light red",
+                "opaque"
+              ],
+              "description": "Optional. Tab icon color."
+            },
+            "shell": {
+              "type": "string",
+              "enum": ["bash", "zsh"],
+              "description": "Optional. Shell type."
+            },
+            "hidden": {
+              "type": "boolean",
+              "description": "Default false. Do not display tab."
+            },
+            "header": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Optional. Message to display on tab creation."
             },
             "description": {
               "type": "string",
@@ -44,9 +174,138 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "minLength": 1
+                "minLength": 1,
+                "description": "Command to execute. Use *command for helper commands.",
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^\\*alert",
+                    "description": "Show a notification. Usage: *alert your alert message",
+                    "examples": ["*alert"]
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^\\*cd",
+                    "description": "Change directory. Fails silently. Usage: *cd folder",
+                    "examples": ["*cd"]
+                  },
+                  {
+                    "const": "*close",
+                    "description": "Close this terminal tab"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^\\*delay",
+                    "description": "Wait for milliseconds. Usage: *delay 5000",
+                    "examples": ["*delay"]
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^\\*echo",
+                    "description": "Echo a message to the terminal. Usage: *echo your message here",
+                    "examples": ["*echo"]
+                  },
+                  {
+                    "const": "*focus",
+                    "description": "Focus on the terminal"
+                  },
+                  {
+                    "const": "*stop",
+                    "description": "Stop the currently running process"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^(?!\\*).*$",
+                    "description": "Shell command"
+                  }
+                ]
               },
               "description": "Commands to be executed in this terminal tab."
+            },
+            "icon": {
+              "type": "string",
+              "enum": [
+                "bash",
+                "beaker",
+                "bell",
+                "binary",
+                "branch",
+                "browser",
+                "bug",
+                "check",
+                "cloud",
+                "code",
+                "database",
+                "debug",
+                "error",
+                "extensions",
+                "file",
+                "fix",
+                "flame",
+                "folder",
+                "gear",
+                "git",
+                "history",
+                "info",
+                "lightbulb",
+                "lightning",
+                "open",
+                "package",
+                "play",
+                "powershell",
+                "pull request",
+                "python",
+                "question",
+                "ruby",
+                "search",
+                "server",
+                "settings",
+                "sparkle",
+                "stop",
+                "symlink",
+                "sync",
+                "terminal",
+                "trash",
+                "watch",
+                "warning"
+              ],
+              "description": "Optional. Tab icon."
+            },
+            "color": {
+              "type": "string",
+              "enum": [
+                "black",
+                "red",
+                "green",
+                "yellow",
+                "blue",
+                "purple",
+                "cyan",
+                "white",
+                "gray",
+                "pink",
+                "light blue",
+                "light green",
+                "light yellow",
+                "light cyan",
+                "light red",
+                "opaque"
+              ],
+              "description": "Optional. Tab icon color."
+            },
+            "shell": {
+              "type": "string",
+              "enum": ["bash", "zsh"],
+              "description": "Optional. Shell type."
+            },
+            "hidden": {
+              "type": "boolean",
+              "description": "Default false. Do not display tab."
+            },
+            "header": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Optional. Message to display on tab creation."
             },
             "description": {
               "type": "string",
