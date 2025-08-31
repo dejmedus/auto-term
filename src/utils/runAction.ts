@@ -30,7 +30,8 @@ export default async function runAction(
 
   try {
     for (const terminalConfig of actionConfig) {
-      // terminal.config.json allows for either "tab" or "name" to be used as the terminal name
+      // terminal.config.json allows for either "tab" or "name"
+      // to be used as the terminal name
       const terminalName =
         "tab" in terminalConfig ? terminalConfig.tab : terminalConfig.name;
 

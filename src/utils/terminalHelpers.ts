@@ -9,6 +9,7 @@ import {
 
 import { TerminalConfig } from "../lib/types";
 import customCommands, { CommandResult } from "./customCommands";
+import { log } from "./logger";
 
 export async function runInCurrentTerminal(
   terminal: Terminal,
@@ -47,6 +48,7 @@ export async function runInNewTerminal(
     terminalOptions.message = ` ${dim}${header}\n${reset}`;
   }
 
+  log.info(`Spawning new terminal: ${terminalName}`);
   const newTerminal = window.createTerminal(terminalOptions);
   !hidden && newTerminal.show();
 
@@ -115,9 +117,9 @@ export async function runCommandLoop(
                 executionListener.dispose();
 
                 if (event.exitCode === 1) {
-                  window.showErrorMessage(
-                    `Command ${command} failed in ${terminal.name} terminal`
-                  );
+                  const message = `Command ${command} failed in ${terminal.name} terminal`;
+                  window.showErrorMessage(message);
+                  log.error(message);
                   !hidden && terminal.show();
                   reject(
                     new Error(`Command ${command} failed with exit code 1`)
@@ -149,7 +151,7 @@ export async function runCommand(
         window.showErrorMessage(
           `Command ${commandType} not found in helper commands.`
         );
-        return { type: "error", error: new Error("Custom command not found") };
+        return { type: "error", error: new Error("Helper command not found") };
       }
 
       return await customCommands[commandTypeLowerCase](

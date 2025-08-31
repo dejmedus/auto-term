@@ -2,6 +2,7 @@ import { workspace, ExtensionContext } from "vscode";
 
 import getConfigFile, { IConfigFile } from "./utils/getConfigFile";
 import runAction from "./utils/runAction";
+import { log } from "./utils/logger";
 
 import actionDisposable from "./commands/action";
 import showUsageGuideDisposable from "./commands/showUsageGuide";
@@ -11,6 +12,9 @@ export let extensionContext: ExtensionContext;
 
 async function activate(context: ExtensionContext) {
   extensionContext = context;
+
+  log.info("Auto Terminal started!");
+
   const configFile = getConfigFile(true, true);
 
   if (!configFile) {
@@ -28,7 +32,8 @@ async function runOpenCommands(configFile: IConfigFile) {
     .get("runOpenCommandsOnStartup");
 
   if (runOpenCommandsOnStartup) {
-    if (configFile.hasOwnProperty("open")) {
+    if ("open" in configFile) {
+      log.info("Running open commands");
       await runAction("open", configFile);
     }
   }

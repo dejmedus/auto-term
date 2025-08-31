@@ -1,9 +1,10 @@
 import { commands, window, workspace, Memento } from "vscode";
 
-import { extensionContext } from "../extension";
 import runAction from "../utils/runAction";
 import getConfigFile, { IConfigFile } from "../utils/getConfigFile";
+import { extensionContext } from "../extension";
 import { noShellIntegrationDialog } from "../utils/terminalHelpers";
+import { log } from "../utils/logger";
 
 let actionDisposable = commands.registerCommand(
   "extension.action",
@@ -13,17 +14,22 @@ let actionDisposable = commands.registerCommand(
       .get("enabled");
 
     if (!shellIntegrationEnabled) {
+      log.warn("Shell integration disabled");
       noShellIntegrationDialog();
       return;
     }
 
     const configFile = getConfigFile();
-    if (!configFile) return;
+    if (!configFile) {
+      log.warn("Config file could not be loaded");
+      return;
+    }
     const { globalState } = extensionContext;
     const actionOptions = getActionOrder(globalState, configFile);
 
     window.showQuickPick(actionOptions).then(async (selectedAction) => {
       if (selectedAction) {
+        log.info(`Action selected: ${selectedAction}`);
         setActionOrder(globalState, selectedAction, actionOptions);
         await runAction(selectedAction, configFile);
       }
