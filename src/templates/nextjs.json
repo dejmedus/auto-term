@@ -3,50 +3,40 @@
     {
       "tab": "git",
       "commands": ["git branch"],
-      "description": "Display the current branch"
+      "icon": "git"
     },
     {
       "tab": "frontend",
       "commands": ["npm install"],
-      "description": "Install dependencies"
+      "icon": "browser"
     }
   ],
   "open": [
     {
       "tab": "git",
       "commands": ["git branch"],
-      "description": "Display the current branch"
+      "icon": "git"
     },
     {
       "tab": "frontend",
       "commands": ["npm run dev"],
-      "description": "Run the app"
+      "icon": "browser"
     }
   ],
   "start": [
     {
       "tab": "frontend",
-      "commands": ["clear", "npm run dev"],
-      "description": "Run the app"
-    }
-  ],
-  "stop": [
-    {
-      "tab": "frontend",
-      "commands": ["*STOP"],
-      "description": "Stop the app"
+      "commands": ["*stop", "clear", "npm run dev"]
     }
   ],
   "close": [
     {
       "tab": "git",
-      "commands": ["*CLOSE"],
-      "description": "Close the terminal"
+      "commands": ["*close"]
     },
     {
       "tab": "frontend",
-      "commands": ["*CLOSE"],
-      "description": "Close the terminal"
+      "commands": ["*stop", "*close"]
     }
   ]
 }
